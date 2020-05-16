@@ -39,13 +39,22 @@ body {
         </ul>
         <div class="tab-content">
         	<div class="tab-pane active" id="profile">
-                <form class="form" action="##" method="post" id="registrationForm">
+                <form class="form" method="post" id="registrationForm">
+                    {% csrf_token %}
+                    {% if message %}
+                        <br>
+                        <div style="color: black; text-align: center;" class="alert alert-danger" role="alert">{{message}}</div>
+                    {% endif %}
+                    {% if success %}
+                        <br>
+                        <div style="color: black; text-align: center;" class="alert alert-success" role="alert">{{success}}</div>
+                    {% endif %}
                     <div class="form-group">
                         <div class="col-xs-6">
                             <label for="first_name">
                                 <h4>First name</h4>
                             </label>
-                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any." value="{{ request.user.first_name }}">
+                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any." value="{{ first_name }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -53,7 +62,7 @@ body {
                             <label for="last_name">
                                 <h4>Last name</h4>
                             </label>
-                            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any." value="{{ request.user.last_name }}">
+                            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any." value="{{ last_name }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -61,13 +70,13 @@ body {
                             <label for="email">
                                 <h4>Email</h4>
                             </label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="{{ request.user.username }}">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="{{ request.user.email }}" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-6">
                             <label for="password">
-                                <h4>Password</h4>
+                                <h4>New Password</h4>
                             </label>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password.">
                         </div>

@@ -89,7 +89,44 @@ def logout(request):
 
 @login_required
 def profile(request):
-	return render(request,"profile.html", {})
+	if request.method == "POST":
+		firstname = request.POST['first_name'].strip()
+		lastname = request.POST['last_name'].strip()
+
+		password = request.POST['password']
+		password_2 = request.POST['password2'];
+
+		user = User.objects.get(pk=(request.user.id))
+		user.first_name = firstname
+		user.last_name = lastname
+
+		if(password and password_2):
+			if(password!=password_2):
+				context = {"message": "Your passwords do not match!"}
+				return render(request,"profile.html", context)
+
+			if(len(password)<8 or any(letter.isalpha() for letter in password)==False or any(capital.isupper() for capital in password)==False or any(number.isdigit() for number in password)==False):
+				context = {"message": "Your password is not strong enough."}
+				return render(request,"profile.html", context)
+			
+			user.set_password(password)
+		user.save()
+
+		user = authenticate(username=user.username, password=password)
+		if user:
+			auth_login(request, user)
+		else:
+			return redirect("accounts:login")
+
+		context = {
+			"success": "Your details are updated.",
+			"first_name": firstname,
+			"last_name": lastname,
+		}
+		return render(request,"profile.html", context)
+
+	context = {"first_name": request.user.first_name, "last_name": request.user.last_name, "email": request.user.email}
+	return render(request,"profile.html", context)
 
 
 def activateaccount(request, uidb64, token):
