@@ -24,6 +24,7 @@ def login(request):
 		else:
 			context = {"message": "Username or Password did not match!", "username": username}
 			return render(request,"login.html", context)
+			#
 	return render(request,"login.html", {})
 
 def register(request):
