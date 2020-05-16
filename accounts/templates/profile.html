@@ -1,0 +1,117 @@
+{% extends "account_base.html" %}
+{% block content %}
+<style type="text/css">
+body {
+    background: #182a4a;
+}
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10">
+            <h1>Welcome, {{ request.user.first_name }}</h1>
+        </div>
+        <div class="col-sm-2">
+            <a href="{% url 'accounts:profile' %}" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+        </div>
+    </div>
+    <!-- <div class="row"> -->
+    <div class="col-sm-3">
+        <!--left col-->
+        <ul class="list-group">
+            <li class="list-group-item text-muted">Profile</li>
+            <li style="color: black;" class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span> {{ request.user.date_joined }}</li>
+            <li style="color: black;" class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span> {{ request.user.last_login }}</li>
+        </ul>
+        <ul class="list-group">
+            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+        </ul>
+    </div>
+    <!--/col-3-->
+    <div class="col-sm-9">
+        <ul class="nav nav-tabs" id="myTab">
+        	<li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+            <li><a href="#settings" data-toggle="tab">Account Settings</a></li>
+            
+        </ul>
+        <div class="tab-content">
+        	<div class="tab-pane active" id="profile">
+                <form class="form" action="##" method="post" id="registrationForm">
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="first_name">
+                                <h4>First name</h4>
+                            </label>
+                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any." value="{{ request.user.first_name }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="last_name">
+                                <h4>Last name</h4>
+                            </label>
+                            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any." value="{{ request.user.last_name }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="email">
+                                <h4>Email</h4>
+                            </label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="{{ request.user.username }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="password">
+                                <h4>Password</h4>
+                            </label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <label for="password2">
+                                <h4>Repeat Password</h4>
+                            </label>
+                            <input type="password" class="form-control" name="password2" id="password2" placeholder="Repeat Password" title="enter your password2.">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <br>
+                            <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                            <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--/tab-pane-->
+            <div class="tab-pane" id="settings">
+                <h2></h2>
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Inbox</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                    <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                </ul>
+            </div>
+            <!--/tab-pane-->
+            
+        </div>
+        <!--/tab-pane-->
+    </div>
+    <!--/tab-content-->
+    <!-- </div> -->
+    <!--/col-9-->
+</div>
+<!--/row-->
+{% endblock %}
