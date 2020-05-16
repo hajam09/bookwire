@@ -10,6 +10,7 @@ from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
+
 def login(request):
 	if request.method == "POST":
 		username = request.POST['username'].replace(" ", "")
@@ -77,7 +78,6 @@ def register(request):
 
 			email_message = EmailMessage(email_subject, message, settings.EMAIL_HOST_USER, [email])
 			email_message.send()
-
 
 			context = {"activate": "We've sent you an activation link. Please check your email."}
 			return render(request,"registration.html", context)
