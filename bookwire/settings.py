@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'book',
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,3 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'qmwebprog2019@gmail.com'
 EMAIL_HOST_PASSWORD = 'OneAuction'
 EMAIL_PORT = 587
-
-MESSAGE_TAGS = {
-    messages.ERROR:'danger'
-}

@@ -1,15 +1,15 @@
-https://bootsnipp.com/snippets/MaW
-https://bootsnipp.com/snippets/vvr
-https://bootsnipp.com/snippets/qAz8x
-https://bootsnipp.com/snippets/KXR7x
-https://bootsnipp.com/snippets/0yr7G
-https://bootsnipp.com/snippets/bxK9b
-https://bootsnipp.com/snippets/PDxZ1
-https://bootsnipp.com/snippets/86gRo
-https://bootsnipp.com/snippets/kE4A3
-https://bootsnipp.com/snippets/GaeQR
-https://bootsnipp.com/snippets/M3jmA
-https://bootsnipp.com/snippets/7neW
+https://bootsnipp.com/snippets/MaW "Full width login form"
+https://bootsnipp.com/snippets/vvr User preferences in Nav Bar
+https://bootsnipp.com/snippets/qAz8x Navbar animation
+https://bootsnipp.com/snippets/KXR7x Navbar dropdown
+https://bootsnipp.com/snippets/0yr7G Show Password
+https://bootsnipp.com/snippets/bxK9b Buttons
+https://bootsnipp.com/snippets/PDxZ1 Comment section
+https://bootsnipp.com/snippets/86gRo "Test Multiselect"
+https://bootsnipp.com/snippets/kE4A3 "Page Not Found"
+https://bootsnipp.com/snippets/GaeQR "Awesome Search Box"
+https://bootsnipp.com/snippets/M3jmA Calender
+https://bootsnipp.com/snippets/7neW "Stylish Search Box"
 https://bootsnipp.com/snippets/4Mm5R profile
 https://bootsnipp.com/snippets/D9PA4 forgot password
 https://bootsnipp.com/snippets/8v4K Change Password Form (With Validation)

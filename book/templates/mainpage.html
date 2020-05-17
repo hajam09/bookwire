@@ -1,0 +1,47 @@
+{% extends "account_base.html" %}
+{% load staticfiles %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/searchbox.css' %}" />
+<style type="text/css">
+body {
+    /*background: #dbdbdb;*/
+    color: black;
+}
+</style>
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" name="booksearch" class="search-query form-control" placeholder="Search" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button">
+                            <span class=" glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    {% if bookresults %}
+        {% if bookresults|length > 0 %}
+            {% for books in bookresults %}
+                <br>
+                <div class="row" style="border: 0.5px solid grey;border-radius: 5px;padding:2px;">
+                    <div class="col-xs-6 col-md-4">
+                        <img alt="" src="{{books.thumbnail}}"/>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        {% if no_result %}
+            <br><br>
+            <div style="text-align: center;margin: auto;" class="alert alert-danger" role="alert"> {{no_result}} </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

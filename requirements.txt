@@ -1,3 +1,2 @@
 django==2.2.*
-validate_email
-py3dns
+requests

@@ -10,6 +10,7 @@ from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
+from book.models import Book
 
 def login(request):
 	if request.method == "POST":
