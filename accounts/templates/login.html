@@ -34,6 +34,7 @@ body {
             </div>
             <div class="form-group">
                 <label class="checkbox-inline"><input type="checkbox" name="remember_me" />Remember Me</label>
+                <div class="pull-right"><a href="#" onclick="show_hide_password();">Show Password</a></div>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-lg btn-block">Login</button>
@@ -42,4 +43,18 @@ body {
         <div class="text-center">Forgot your password? <a href="{% url 'accounts:password_request' %}">Reset Here</a></div>
     </div>
 </div>
+<script type="text/javascript">
+    function show_hide_password() {
+        var password_1 = $("[name='password']");
+        var password_2 = $("[name='confirm_password']");
+
+        if(password_1.attr("type")=="password"){
+            password_1.attr("type","text");
+            password_2.attr("type","text");
+        } else {
+            password_1.attr("type","password");
+            password_2.attr("type","password");
+        }
+    }
+</script>
 {% endblock %}
