@@ -143,3 +143,62 @@ def activateaccount(request, uidb64, token):
 		messages.add_message(request,messages.SUCCESS,"Account activated successfully")
 		return redirect('accounts:login')
 	return render(request, "activate_failed.html",status=401)
+
+def password_request(request):
+	if request.method == "POST":
+		email = request.POST["email"]
+
+		try:
+			user = User.objects.get(username=email)
+		except User.DoesNotExist:
+			user = None
+
+		if user is not None:
+			username = user.first_name
+
+			current_site = get_current_site(request)
+			domain = current_site.domain
+
+			uid = urlsafe_base64_encode(force_bytes(user.pk))
+			token = generate_token.make_token(user)
+
+			email_subject = "Request to change BookWire Password"
+			message = """Hi {},\n\n
+			You have recently request to change your account password.
+			Please click this link below to change your account password. \n\n
+			http://{}/accounts/password_change/{}/{}""".format(username, domain, uid, token)
+
+			email_message = EmailMessage(email_subject, message, settings.EMAIL_HOST_USER, [email])
+			email_message.send()
+
+		return render(request, "password_request.html",{"message": "Check your email for a password change link."})
+	return render(request, "password_request.html",{})
+
+def password_change(request, uidb64, token):
+	try:
+		uid = force_text(urlsafe_base64_decode(uidb64))
+		user = User.objects.get(pk=uid)
+	except Exception as e:
+		user = None
+
+	if request.method == "POST" and user is not None and generate_token.check_token(user, token):
+		password_1 = request.POST["password_1"]
+		password_2 = request.POST["password_2"]
+
+		if password_1 and password_2:
+			if(password_1!=password_2):
+				context = {"message": "Your passwords do not match!"}
+				return render(request,"password_reset_form.html", context)
+
+			if(len(password_1)<8 or any(letter.isalpha() for letter in password_1)==False or any(capital.isupper() for capital in password_1)==False or any(number.isdigit() for number in password_1)==False):
+				context = {"message": "Your password is not strong enough."}
+				return render(request,"password_reset_form.html", context)
+
+			user.set_password(password_1)
+			user.save()
+			return redirect("accounts:login")
+
+	if user is not None and generate_token.check_token(user, token):
+		return render(request, "password_reset_form.html",{})
+	else:
+		return render(request, "activate_failed.html",status=401)
