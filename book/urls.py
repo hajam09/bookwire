@@ -3,5 +3,5 @@ from book import views
 app_name = "book"
 urlpatterns = [
 	path('', views.mainpage, name='mainpage'),
-	path('bookinstance/', views.bookinstance, name='bookinstance'),
+	path('bookinstance/<slug:isbn_13>', views.bookinstance, name='bookinstance'),
 ]

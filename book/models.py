@@ -18,3 +18,12 @@ class Book(models.Model):
 	readingnow = models.ManyToManyField(User, related_name='readingnow')
 	toread = models.ManyToManyField(User, related_name='toread')
 	haveread = models.ManyToManyField(User, related_name='haveread')
+
+class Review(models.Model):
+	book = models.ForeignKey(Book, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	description = models.TextField(max_length=1024)
+	rating_value = models.IntegerField()
+	created_at = models.DateTimeField()
+	likes = models.ManyToManyField(User, related_name='likes')
+	dislikes = models.ManyToManyField(User, related_name='dislikes')

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Book
 import requests
 
@@ -50,7 +50,7 @@ def mainpage(request):
 						isbn_10 = book['volumeInfo']['industryIdentifiers'][1]['identifier']
 					elif(book['volumeInfo']['industryIdentifiers'][1]['type'] == "ISBN_13"):
 						isbn_13 = book['volumeInfo']['industryIdentifiers'][1]['identifier']
-
+					print(isbn_13)
 					if('categories' in book['volumeInfo']):
 						categories = book['volumeInfo']['categories']
 						genre = [i.title().replace(",", " &").replace("  ", "") for i in categories]
@@ -90,5 +90,10 @@ def mainpage(request):
 		return render(request, "mainpage.html", {"bookresults":requested_books, "no_result":"Sorry, we could't find any results matching {}".format(booksearch)})
 	return render(request, "mainpage.html",{})
 
-def bookinstance(request):
-	return render(request, "bookpage.html", {})
+def bookinstance(request,isbn_13):
+	# 9780141185101
+	try:
+		book = Book.objects.get(isbn_13=isbn_13)
+	except Book.DoesNotExist:
+		return redirect("book:mainpage")
+	return render(request, "bookpage.html", {"book": book})

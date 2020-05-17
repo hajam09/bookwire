@@ -1,1 +1,69 @@
 {% extends "account_base.html" %}
+{% load staticfiles %}
+{% block content %}
+<style type="text/css">
+body {
+    /*background: #545963;*/
+    /*color: white;*/
+}
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Default Tab</h3>
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a href="#tab_default_1" data-toggle="tab">Description</a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_2" data-toggle="tab">Book Info</a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_3" data-toggle="tab">Reviews</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_default_1">
+                            <br>
+                            <p>{{book.description}}</p>
+                        </div>
+                        <div class="tab-pane" id="tab_default_2">
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Authors</dt>
+                                        <dd>{{book.authors}}</dd>
+                                        <br>
+                                        <dt>Publisher</dt>
+                                        <dd>{{book.publisher}}</dd>
+                                        <br>
+                                        <dt>ISBN 10</dt>
+                                        <dd>{{book.isbn_10}}</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-xs-6">
+                                	<dl class="dl-horizontal">
+                                        <dt>Published Date</dt>
+                                        <dd>{{book.published_date}}</dd>
+                                        <br>
+                                        <dt>Genre</dt>
+                                        <dd>{{book.genre}}</dd>
+                                        <br>
+                                        <dt>ISBN 13</dt>
+                                        <dd>{{book.isbn_13}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_default_3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
