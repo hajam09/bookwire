@@ -9,8 +9,37 @@ body {
 </style>
 <div class="container">
     <div class="row">
+        <div class="col-sm-2 hidden-xs">
+            <img style="width: 150%;" src="{{book.thumbnail}}" class="img-fluid" alt="">
+        </div>
+        <div class="col-sm-10" style="padding-left: 90px;">
+            <h1>{{book.title}}</h1>
+            <br>
+            <a href="#">({{book.ratings_count}}) Votes</a>
+            <div class="p-4">
+                <p class="lead font-weight-bold">Description</p>
+                <p>{{book.description}}</p>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xs-6 col-sm-3">
+                    <button type="button" class="btn btn-info btn-sm" id="favourites" status="False"><i class="fa fa-star"></i> Add to my favourite list</button>
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <button type="button" class="btn btn-info btn-sm" id="have-read" status="False"><i class="fa fa-book"></i> Add to my have read list</button>
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <button type="button" class="btn btn-info btn-sm" id="to-read" status="False"><i class="glyphicon glyphicon-book"></i> Add to my to read list</button>
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False"><i class='fas fa-book-open'></i> Add to reading now list</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-md-12">
-            <h3>Default Tab</h3>
             <div class="tabbable-panel">
                 <div class="tabbable-line">
                     <ul class="nav nav-tabs ">
@@ -45,7 +74,7 @@ body {
                                     </dl>
                                 </div>
                                 <div class="col-xs-6">
-                                	<dl class="dl-horizontal">
+                                    <dl class="dl-horizontal">
                                         <dt>Published Date</dt>
                                         <dd>{{book.published_date}}</dd>
                                         <br>
@@ -66,4 +95,128 @@ body {
         </div>
     </div>
 </div>
+<script type="text/javascript">
+window.onload = function() {
+    if("{{in_favourite_Book}}"){
+        if("{{in_favourite_Book}}"=="True"){
+
+        }else{
+
+        }
+    }
+
+    if("{{in_favourite_Book}}"){
+        if("{{in_favourite_Book}}"=="True"){
+
+        }else{
+
+        }
+    }
+
+    if("{{in_favourite_Book}}"){
+        if("{{in_favourite_Book}}"=="True"){
+
+        }else{
+
+        }
+    }
+
+    if("{{in_favourite_Book}}"){
+        if("{{in_favourite_Book}}"=="True"){
+
+        }else{
+
+        }
+    }
+}
+
+
+$('#favourites').click(function() {
+    $.ajax({
+        type: "PUT",
+        data: {
+            functionality: 'favourites',
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function() {
+            var button = $("#favourites")
+            if (button.attr("status") == "False") {
+                button.attr("status", "True")
+                button.attr("class", "btn btn-danger btn-sm")
+                button.html(' <i class="fa fa-star"></i> Remove from my favourites list');
+            } else {
+                button.attr("status", "False")
+                button.attr("class", "btn btn-info btn-sm")
+                button.html('<i class="fa fa-star"></i> Add to my favourites list');
+            }
+        }
+    });
+});
+
+$('#have-read').click(function() {
+    $.ajax({
+        type: "PUT",
+        data: {
+            functionality: 'have-read',
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function() {
+            var button = $("#have-read")
+            if (button.attr("status") == "False") {
+                button.attr("status", "True")
+                button.attr("class", "btn btn-danger btn-sm")
+                button.html('<i class="fa fa-book"></i> Remove from my have read list');
+            } else {
+                button.attr("status", "False")
+                button.attr("class", "btn btn-info btn-sm")
+                button.html('<i class="fa fa-book"></i> Add to my have read list');
+            }
+        }
+    });
+});
+
+$('#to-read').click(function() {
+    $.ajax({
+        type: "PUT",
+        data: {
+            functionality: 'to-read',
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function() {
+            var button = $("#to-read")
+            if (button.attr("status") == "False") {
+                button.attr("status", "True")
+                button.attr("class", "btn btn-danger btn-sm")
+                button.html('<i class="glyphicon glyphicon-book"></i> Remove from my to read list');
+            } else {
+                button.attr("status", "False")
+                button.attr("class", "btn btn-info btn-sm")
+                button.html('<i class="glyphicon glyphicon-book"></i> Add to my to read list');
+            }
+        }
+    });
+});
+
+$('#reading-now').click(function() {
+    $.ajax({
+        type: "PUT",
+        data: {
+            functionality: 'reading-now',
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function() {
+            var button = $("#reading-now")
+            if (button.attr("status") == "False") {
+                button.attr("status", "True")
+                button.attr("class", "btn btn-danger btn-sm")
+                button.html('<i class="fas fa-book-open"></i> Remove from my reading now list');
+            } else {
+                button.attr("status", "False")
+                button.attr("class", "btn btn-info btn-sm")
+                button.html('<i class="fas fa-book-open"></i> Add to my reading now list');
+            }
+        }
+    });
+});
+</script>
 {% endblock %}

@@ -19,6 +19,9 @@ class Book(models.Model):
 	toread = models.ManyToManyField(User, related_name='toread')
 	haveread = models.ManyToManyField(User, related_name='haveread')
 
+	def __str__ (self):
+		return self.isbn_13
+
 class Review(models.Model):
 	book = models.ForeignKey(Book, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
