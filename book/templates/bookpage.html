@@ -23,16 +23,32 @@ body {
             <br>
             <div class="row">
                 <div class="col-xs-6 col-sm-3">
-                    <button type="button" class="btn btn-info btn-sm" id="favourites" status="False"><i class="fa fa-star"></i> Add to my favourite list</button>
+                    {% if in_favourite_Book %}
+                        <button type="button" class="btn btn-danger btn-sm" id="favourites" status="True"><i class="fa fa-star"></i> Remove from my favourites list</button>
+                    {% else %}
+                        <button type="button" class="btn btn-info btn-sm" id="favourites" status="False"><i class="fa fa-star"></i> Add to my favourite list</button>
+                    {% endif %}
                 </div>
                 <div class="col-xs-6 col-sm-3">
-                    <button type="button" class="btn btn-info btn-sm" id="have-read" status="False"><i class="fa fa-book"></i> Add to my have read list</button>
+                    {% if in_have_read_Book %}
+                        <button type="button" class="btn btn-danger btn-sm" id="have-read" status="True"><i class="fa fa-book"></i> Remove from my have read list</button>
+                    {% else %}
+                        <button type="button" class="btn btn-info btn-sm" id="have-read" status="False"><i class="fa fa-book"></i> Add to my have read list</button>
+                    {% endif %}
                 </div>
                 <div class="col-xs-6 col-sm-3">
-                    <button type="button" class="btn btn-info btn-sm" id="to-read" status="False"><i class="glyphicon glyphicon-book"></i> Add to my to read list</button>
+                    {% if in_to_read_Book %}
+                        <button type="button" class="btn btn-danger btn-sm" id="to-read" status="True"><i class="glyphicon glyphicon-book"></i> Remove from my to read list</button>
+                    {% else %}
+                        <button type="button" class="btn btn-info btn-sm" id="to-read" status="False"><i class="glyphicon glyphicon-book"></i> Add to my to read list</button>
+                    {% endif %}
                 </div>
                 <div class="col-xs-6 col-sm-3">
-                    <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False"><i class='fas fa-book-open'></i> Add to reading now list</button>
+                    {% if in_reading_Book %}
+                        <button type="button" class="btn btn-danger btn-sm" id="reading-now" status="True"><i class='fas fa-book-open'></i> Remove from my reading now list</button>
+                    {% else %}
+                        <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False"><i class='fas fa-book-open'></i> Add to reading now list</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -96,41 +112,6 @@ body {
     </div>
 </div>
 <script type="text/javascript">
-window.onload = function() {
-    if("{{in_favourite_Book}}"){
-        if("{{in_favourite_Book}}"=="True"){
-
-        }else{
-
-        }
-    }
-
-    if("{{in_favourite_Book}}"){
-        if("{{in_favourite_Book}}"=="True"){
-
-        }else{
-
-        }
-    }
-
-    if("{{in_favourite_Book}}"){
-        if("{{in_favourite_Book}}"=="True"){
-
-        }else{
-
-        }
-    }
-
-    if("{{in_favourite_Book}}"){
-        if("{{in_favourite_Book}}"=="True"){
-
-        }else{
-
-        }
-    }
-}
-
-
 $('#favourites').click(function() {
     $.ajax({
         type: "PUT",
@@ -138,16 +119,21 @@ $('#favourites').click(function() {
             functionality: 'favourites',
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        success: function() {
-            var button = $("#favourites")
-            if (button.attr("status") == "False") {
-                button.attr("status", "True")
-                button.attr("class", "btn btn-danger btn-sm")
-                button.html(' <i class="fa fa-star"></i> Remove from my favourites list');
-            } else {
-                button.attr("status", "False")
-                button.attr("class", "btn btn-info btn-sm")
-                button.html('<i class="fa fa-star"></i> Add to my favourites list');
+        success: function(response) {
+            if (response.status_code == 403) {
+                alert(response.message);
+                return;
+            } else if (response.status_code == 204) {
+                var button = $("#favourites")
+                if (button.attr("status") == "False") {
+                    button.attr("status", "True")
+                    button.attr("class", "btn btn-danger btn-sm")
+                    button.html(' <i class="fa fa-star"></i> Remove from my favourites list');
+                } else {
+                    button.attr("status", "False")
+                    button.attr("class", "btn btn-info btn-sm")
+                    button.html('<i class="fa fa-star"></i> Add to my favourites list');
+                }
             }
         }
     });
@@ -160,16 +146,21 @@ $('#have-read').click(function() {
             functionality: 'have-read',
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        success: function() {
-            var button = $("#have-read")
-            if (button.attr("status") == "False") {
-                button.attr("status", "True")
-                button.attr("class", "btn btn-danger btn-sm")
-                button.html('<i class="fa fa-book"></i> Remove from my have read list');
-            } else {
-                button.attr("status", "False")
-                button.attr("class", "btn btn-info btn-sm")
-                button.html('<i class="fa fa-book"></i> Add to my have read list');
+        success: function(response) {
+            if (response.status_code == 403) {
+                alert(response.message);
+                return;
+            } else if (response.status_code == 204) {
+                var button = $("#have-read")
+                if (button.attr("status") == "False") {
+                    button.attr("status", "True")
+                    button.attr("class", "btn btn-danger btn-sm")
+                    button.html('<i class="fa fa-book"></i> Remove from my have read list');
+                } else {
+                    button.attr("status", "False")
+                    button.attr("class", "btn btn-info btn-sm")
+                    button.html('<i class="fa fa-book"></i> Add to my have read list');
+                }
             }
         }
     });
@@ -182,16 +173,21 @@ $('#to-read').click(function() {
             functionality: 'to-read',
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        success: function() {
-            var button = $("#to-read")
-            if (button.attr("status") == "False") {
-                button.attr("status", "True")
-                button.attr("class", "btn btn-danger btn-sm")
-                button.html('<i class="glyphicon glyphicon-book"></i> Remove from my to read list');
-            } else {
-                button.attr("status", "False")
-                button.attr("class", "btn btn-info btn-sm")
-                button.html('<i class="glyphicon glyphicon-book"></i> Add to my to read list');
+        success: function(response) {
+            if (response.status_code == 403) {
+                alert(response.message);
+                return;
+            } else if (response.status_code == 204) {
+                var button = $("#to-read")
+                if (button.attr("status") == "False") {
+                    button.attr("status", "True")
+                    button.attr("class", "btn btn-danger btn-sm")
+                    button.html('<i class="glyphicon glyphicon-book"></i> Remove from my to read list');
+                } else {
+                    button.attr("status", "False")
+                    button.attr("class", "btn btn-info btn-sm")
+                    button.html('<i class="glyphicon glyphicon-book"></i> Add to my to read list');
+                }
             }
         }
     });
@@ -204,17 +200,22 @@ $('#reading-now').click(function() {
             functionality: 'reading-now',
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        success: function() {
-            var button = $("#reading-now")
-            if (button.attr("status") == "False") {
-                button.attr("status", "True")
-                button.attr("class", "btn btn-danger btn-sm")
-                button.html('<i class="fas fa-book-open"></i> Remove from my reading now list');
-            } else {
-                button.attr("status", "False")
-                button.attr("class", "btn btn-info btn-sm")
-                button.html('<i class="fas fa-book-open"></i> Add to my reading now list');
-            }
+        success: function(response) {
+            if (response.status_code == 403) {
+                alert(response.message);
+                return;
+            } else if (response.status_code == 204) {
+                var button = $("#reading-now")
+                if (button.attr("status") == "False") {
+                    button.attr("status", "True")
+                    button.attr("class", "btn btn-danger btn-sm")
+                    button.html('<i class="fas fa-book-open"></i> Remove from my reading now list');
+                } else {
+                    button.attr("status", "False")
+                    button.attr("class", "btn btn-info btn-sm")
+                    button.html('<i class="fas fa-book-open"></i> Add to my reading now list');
+                }
+            } 
         }
     });
 });

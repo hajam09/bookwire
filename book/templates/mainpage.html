@@ -30,12 +30,14 @@ body {
         {% if bookresults|length > 0 %}
             {% for books in bookresults %}
                 <br>
-                <div class="row" style="border: 0.5px solid grey;border-radius: 5px;padding:2px;">
+                <!-- <div class="row" style="border: 0.5px solid grey;border-radius: 5px;padding:2px;">
                     <div class="col-xs-6 col-md-4">
                         <img alt="" src="{{books.thumbnail}}"/>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>
-                </div>
+                </div> -->
+                <a href="{% url 'book:bookinstance' isbn_13=books.isbn_13 %}">{{books.title}}</a>
+                {{books.title}}
             {% endfor %}
         {% endif %}
     {% else %}
@@ -44,4 +46,5 @@ body {
             <div style="text-align: center;margin: auto;" class="alert alert-danger" role="alert"> {{no_result}} </div>
         {% endif %}
     {% endif %}
+</div>
 {% endblock %}

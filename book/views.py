@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Book, Review
-import requests
+import requests, json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import QueryDict, HttpResponse
 from django.contrib.auth.models import User
@@ -109,37 +109,44 @@ def bookinstance(request,isbn_13):
 			favourite_Book = Book.objects.filter(favourites__id=user.pk)
 			if not book in favourite_Book:
 				user.favourites.add(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 			else:
 				user.favourites.remove(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 
 		elif functionality == "have-read":
 			have_read_Book = Book.objects.filter(haveread__id=user.pk)
 			if not book in have_read_Book:
 				user.haveread.add(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 			else:
 				user.haveread.remove(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 
 		elif functionality == "to-read":
 			toread_Book = Book.objects.filter(toread__id=user.pk)
 			if not book in toread_Book:
 				user.toread.add(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 			else:
 				user.toread.remove(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 
 		elif functionality == "reading-now":
 			reading_Book = Book.objects.filter(readingnow__id=user.pk)
 			if not book in reading_Book:
 				user.readingnow.add(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 			else:
 				user.readingnow.remove(book)
-				return HttpResponse(status=204)
+				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
+
+	elif request.method == "PUT" and not request.user.is_authenticated:
+		response_data = {"status_code": 403, "message": "Please login to access this feature."}
+		return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+	elif request.method == "PUT" and request.user.is_superuser:
+		response_data = {"status_code": 403, "message": "You do not have the permission to access this feature."}
 
 	context = {"book": book}
 	if request.user.is_authenticated and not request.user.is_superuser:
@@ -147,7 +154,5 @@ def bookinstance(request,isbn_13):
 		context["in_reading_Book"] = True if book in Book.objects.filter(readingnow__id=request.user.pk) else False
 		context["in_to_read_Book"] = True if book in Book.objects.filter(toread__id=request.user.pk) else False
 		context["in_have_read_Book"] = True if book in Book.objects.filter(haveread__id=request.user.pk) else False
-
-		print(context["in_favourite_Book"])
 
 	return render(request, "bookpage.html", context)
