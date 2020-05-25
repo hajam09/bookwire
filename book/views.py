@@ -94,9 +94,9 @@ def mainpage(request):
 
 @csrf_exempt
 def bookinstance(request,isbn_13):
-	# 9780141185101
 	try:
 		book = Book.objects.get(isbn_13=isbn_13)
+		reviews = Review.objects.filter(book=book)
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 
@@ -148,7 +148,7 @@ def bookinstance(request,isbn_13):
 	elif request.method == "PUT" and request.user.is_superuser:
 		response_data = {"status_code": 403, "message": "You do not have the permission to access this feature."}
 
-	context = {"book": book}
+	context = {"book": book, "reviews": reviews}
 	if request.user.is_authenticated and not request.user.is_superuser:
 		context["in_favourite_Book"] = True if book in Book.objects.filter(favourites__id=request.user.pk) else False
 		context["in_reading_Book"] = True if book in Book.objects.filter(readingnow__id=request.user.pk) else False
@@ -156,3 +156,7 @@ def bookinstance(request,isbn_13):
 		context["in_have_read_Book"] = True if book in Book.objects.filter(haveread__id=request.user.pk) else False
 
 	return render(request, "bookpage.html", context)
+
+def usershelf(request):
+	context = {}
+	return render(request, "usershelf.html", context)

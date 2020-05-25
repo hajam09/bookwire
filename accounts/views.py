@@ -113,11 +113,12 @@ def profile(request):
 			user.set_password(password)
 		user.save()
 
-		user = authenticate(username=user.username, password=password)
-		if user:
-			auth_login(request, user)
-		else:
-			return redirect("accounts:login")
+		if(password and password_2):
+			user = authenticate(username=user.username, password=password)
+			if user:
+				auth_login(request, user)
+			else:
+				return redirect("accounts:login")
 
 		context = {
 			"success": "Your details are updated.",

@@ -4,4 +4,5 @@ app_name = "book"
 urlpatterns = [
 	path('', views.mainpage, name='mainpage'),
 	path('bookinstance/<slug:isbn_13>', views.bookinstance, name='bookinstance'),
+	path('usershelf/', views.usershelf, name='usershelf'),
 ]

@@ -104,6 +104,13 @@ body {
                             </div>
                         </div>
                         <div class="tab-pane" id="tab_default_3">
+                            {% if reviews %}
+                                {% for review in reviews %}
+                                    {{review.id}}
+                                {% endfor %}
+                            {% else %}
+                                <p>No reviews has been made for this item!</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
