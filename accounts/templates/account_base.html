@@ -22,11 +22,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">BookWire</a>
+                <a class="navbar-brand" href="{% url 'book:mainpage' %}">BookWire</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#">Home</a></li>
+                    <li class="active"><a href="{% url 'book:mainpage' %}">Home</a></li>
                     {% if user.is_authenticated %}
                     {% if user.is_superuser %}
                     <!-- Admin -->
@@ -60,6 +60,7 @@
                         </ul>
                     </li>
                     {% endif %}
+                    <li><a href="{% url 'forum:forum_mainpage' %}">Forum</a></li>
                 </ul>
             </div>
         </div>

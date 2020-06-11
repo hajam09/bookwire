@@ -96,7 +96,7 @@ def mainpage(request):
 def bookinstance(request,isbn_13):
 	try:
 		book = Book.objects.get(isbn_13=isbn_13)
-		reviews = Review.objects.filter(book=book)
+		reviews = Review.objects.filter(book=book).order_by('-created_at')
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 

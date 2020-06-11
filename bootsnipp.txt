@@ -18,3 +18,4 @@ https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=simpl
 https://www.tutorialrepublic.com/snippets/gallery.php?tag=sign-up
 https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=navbar-with-inline-login-form-in-dropdown
 https://www.tutorialrepublic.com/snippets/preview.php?topic=bootstrap&file=simple-navbar-with-search-box
+https://www.bootdey.com/snippets/view/Simple-Comment-panel#html
