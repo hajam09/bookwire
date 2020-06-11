@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Book, Review
 import requests, json
+from datetime import datetime as dt
 from django.views.decorators.csrf import csrf_exempt
 from django.http import QueryDict, HttpResponse
 from django.contrib.auth.models import User
+from django.core import serializers
 
 def mainpage(request):
 	if request.method == "POST":
@@ -99,6 +101,17 @@ def bookinstance(request,isbn_13):
 		reviews = Review.objects.filter(book=book).order_by('-created_at')
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
+
+	if request.method == "POST" and request.user.is_authenticated and not request.user.is_superuser:
+		functionality = request.POST["functionality"]
+		if functionality == "create-review":
+			Review.objects.all().delete()
+			description = request.POST["description"]
+			value = request.POST["value"]
+			# In the future delete user's previous comment if exist so it does not cause problem with dataframe.
+			new_review = serializers.serialize("json", [Review.objects.create(book=book, user=request.user, description=description, rating_value=value, created_at=dt.now()),])
+			return HttpResponse(json.dumps({"status_code": 200, "new_review": new_review}), content_type="application/json")
+			# need else statement if cannt create review.
 
 	if request.method == "PUT" and request.user.is_authenticated and not request.user.is_superuser:
 		PUT = QueryDict(request.body)

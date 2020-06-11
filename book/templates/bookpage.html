@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block content %}
 <style type="text/css">
+
 body {
     /*background: #545963;*/
     /*color: white;*/
@@ -29,9 +30,68 @@ body {
     font-size: 20px;
 }
 
-.empty-star{
+.empty-star {
     color: black;
     font-size: 20px;
+}
+
+.user-rating {
+    direction: rtl;
+    font-size: 20px;
+    unicode-bidi: bidi-override;
+    padding: 10px 30px;
+    display: inline-block;
+}
+
+.user-rating input {
+    opacity: 0;
+    position: relative;
+    left: -15px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.user-rating span.star:before {
+    color: green;
+    content: "ï€†";
+}
+
+.user-rating span.star {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    position: relative;
+    z-index: 1;
+}
+
+.user-rating span {
+    margin-left: -15px;
+}
+
+.user-rating span.star:before {
+    color: green;
+    content: "\f006";
+}
+
+.user-rating input:hover+span.star:before,
+.user-rating input:hover+span.star~span.star:before,
+.user-rating input:checked+span.star:before,
+.user-rating input:checked+span.star~span.star:before {
+    color: green;
+    content: "\f005";
+}
+
+.selected-rating {
+    color: green;
+    font-weight: bold;
+    font-size: 3em;
+}
+
+.selected-rating-2 {
+    color: green;
+    font-weight: bold;
+    font-size: 3em;
 }
 </style>
 <div class="container">
@@ -138,8 +198,18 @@ body {
                                             Comment Panel
                                         </div>
                                         <div class="panel-body">
-                                            <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea><br>
-                                            <button class="btn btn-success btn-circle pull-right" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Submit Comment</button>
+                                            <textarea class="form-control" placeholder="write a comment..." id="comment-description" rows="3"></textarea><br>
+                                            <form id="user-rating-form">
+                                                <span class="user-rating">
+                                                    <input type="radio" name="rating" value="5"><span class="star"></span>
+                                                    <input type="radio" name="rating" value="4"><span class="star"></span>
+                                                    <input type="radio" name="rating" value="3"><span class="star"></span>
+                                                    <input type="radio" name="rating" value="2"><span class="star"></span>
+                                                    <input type="radio" name="rating" value="1"><span class="star"></span>
+                                                </span>
+                                            </form>
+                                            <input type="text" name="selected-rating" id="selected-rating" class="selected-rating" value="0" hidden>
+                                            <button class="btn btn-success btn-circle pull-right" type="submit" id="submit_comment"><span class="glyphicon glyphicon-send"></span> Submit Comment</button>
                                             <div class="clearfix"></div>
                                             <hr>
                                             <div id="user-reviews">
@@ -294,5 +364,47 @@ $('#reading-now').click(function() {
 {% else %}
     $("#user-reviews").append("<p>No reviews has been made for this item!</p>");
 {% endif %}
+
+$('#user-rating-form').on('change','[name="rating"]',function(){
+    $('#selected-rating').text($('[name="rating"]:checked').val());
+    $('input[name=selected-rating]').val($('[name="rating"]:checked').val());
+});
+
+$('#submit_comment').click(function() {
+    $.ajax({
+        type: "POST",
+        data: {
+            functionality: 'create-review',
+            description: $("#comment-description").val(),
+            value: $("#selected-rating").val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response) {
+            if(response.status_code == 200){
+                var new_review = eval(response.new_review)[0];
+                var id = new_review.pk;
+                var fullname = "{{ request.user.get_full_name }}";
+                var created_at = new_review.fields.created_at;
+                var rating_value = new_review.fields.rating_value;
+                var description = new_review.fields.description;
+            }
+            // if (response.status_code == 403) {
+            //     alert(response.message);
+            //     return;
+            // } else if (response.status_code == 204) {
+            //     var button = $("#have-read")
+            //     if (button.attr("status") == "False") {
+            //         button.attr("status", "True")
+            //         button.attr("class", "btn btn-danger btn-sm")
+            //         button.html('<i class="fa fa-book"></i> Remove from my have read list');
+            //     } else {
+            //         button.attr("status", "False")
+            //         button.attr("class", "btn btn-info btn-sm")
+            //         button.html('<i class="fa fa-book"></i> Add to my have read list');
+            //     }
+            // }
+        }
+    });
+});
 </script>
 {% endblock %}
