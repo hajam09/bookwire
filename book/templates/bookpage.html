@@ -6,7 +6,7 @@
 body {
     /*background: #545963;*/
     /*color: white;*/
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
 
 .comment-wrapper .panel-body {
@@ -226,6 +226,8 @@ body {
     </div>
 </div><br><br>
 <script type="text/javascript">
+$(document).ready(function() { block_review(); });
+
 $('#favourites').click(function() {
     $.ajax({
         type: "PUT",
@@ -338,15 +340,8 @@ $('#reading-now').click(function() {
 {% if reviews %}
     $("#user-reviews").append('<ul class="media-list">');
     {% for review in reviews %}
-        var stars = "";
-        for (var i = 0; i < {{review.rating_value}}; i++) {
-            stars += '<i class="fa fa-star filled-star">&nbsp;</i>';
-        }
-        for (var j = i; i < 5; i++) {
-            stars += '<i class="fa fa-star empty-star">&nbsp;</i>';
-        }
         $(".media-list").append(
-            '<li class="media">' + 
+            '<li class="media" id={{review.user.password}}>' + 
                 '<a href="#" class="pull-left">' +
                     '<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">' +
                 '</a>' +
@@ -356,7 +351,7 @@ $('#reading-now').click(function() {
                     '</span>' +
                     '<strong class="text-success">{{review.user.get_full_name}}</strong>' +
                     '<p id="review_id_{{review.id}}">{{review.description}}</p>' +
-                    stars + 
+                    generate_stars(parseInt("{{review.rating_value}}")) + 
                 '</div>' +
             '</li>');
     {% endfor %}
@@ -385,26 +380,50 @@ $('#submit_comment').click(function() {
                 var id = new_review.pk;
                 var fullname = "{{ request.user.get_full_name }}";
                 var created_at = new_review.fields.created_at;
-                var rating_value = new_review.fields.rating_value;
+                var rating_value = parseInt(new_review.fields.rating_value);
                 var description = new_review.fields.description;
+
+                $(".media-list").prepend(
+                    '<li class="media" id={{request.user.password}}>' + 
+                        '<a href="#" class="pull-left">' +
+                            '<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">' +
+                        '</a>' +
+                        '<div class="media-body">' +
+                            '<span class="text-muted pull-right">' +
+                                '<small class="text-muted">'+ created_at +'</small>' +
+                            '</span>' +
+                            '<strong class="text-success">'+ fullname +'</strong>' +
+                            '<p id="review_id_'+ id +'">'+ description +'</p>' +
+                            generate_stars(rating_value) + 
+                        '</div>' +
+                    '</li>');
+
+                block_review();
             }
-            // if (response.status_code == 403) {
-            //     alert(response.message);
-            //     return;
-            // } else if (response.status_code == 204) {
-            //     var button = $("#have-read")
-            //     if (button.attr("status") == "False") {
-            //         button.attr("status", "True")
-            //         button.attr("class", "btn btn-danger btn-sm")
-            //         button.html('<i class="fa fa-book"></i> Remove from my have read list');
-            //     } else {
-            //         button.attr("status", "False")
-            //         button.attr("class", "btn btn-info btn-sm")
-            //         button.html('<i class="fa fa-book"></i> Add to my have read list');
-            //     }
-            // }
         }
     });
 });
+function block_review() {
+    {% if user.is_authenticated %}
+        var user_comment_exists = document.getElementById("{{request.user.password}}"); 
+        if(user_comment_exists){
+            $('#submit_comment').prop('disabled', true);
+            $('#comment-description').attr("placeholder", "You have already given a review!");
+            $('#comment-description').attr("disabled", "true");
+            $('#user-rating-form').attr("hidden", "true");
+        }
+    {% endif %}
+}
+
+function generate_stars(rating_value) {
+    var stars = "";
+    for (var i = 0; i < rating_value; i++) {
+        stars += '<i class="fa fa-star filled-star">&nbsp;</i>';
+    }
+    for (var j = i; i < 5; i++) {
+        stars += '<i class="fa fa-star empty-star">&nbsp;</i>';
+    }
+    return stars;
+}
 </script>
 {% endblock %}
