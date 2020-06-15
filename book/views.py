@@ -154,8 +154,7 @@ def bookinstance(request,isbn_13):
 				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
 
 		elif functionality == "like-comment":
-			review_id = PUT.get("review_id")
-			this_review = Review.objects.get(id=int(review_id))
+			this_review = Review.objects.get(id=int(PUT.get("review_id")))
 			list_of_liked = Review.objects.filter(likes__id=user.pk)
 			list_of_disliked = Review.objects.filter(dislikes__id=user.pk)
 			if(this_review not in list_of_liked):
@@ -168,8 +167,7 @@ def bookinstance(request,isbn_13):
 			return HttpResponse(json.dumps({"status_code": 200, "this_review": this_review}), content_type="application/json")
 
 		elif functionality == "dislike-comment":
-			review_id = PUT.get("review_id")
-			this_review = Review.objects.get(id=int(review_id))
+			this_review = Review.objects.get(id=int(PUT.get("review_id")))
 			list_of_liked = Review.objects.filter(likes__id=user.pk)
 			list_of_disliked = Review.objects.filter(dislikes__id=user.pk)
 			if(this_review not in list_of_disliked):
