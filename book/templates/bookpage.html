@@ -35,6 +35,10 @@ body {
     font-size: 20px;
 }
 
+.glyphicon-thumbs-up, .glyphicon-thumbs-down{
+    font-size: 15px;
+}
+
 .user-rating {
     direction: rtl;
     font-size: 20px;
@@ -209,7 +213,7 @@ body {
                                                 </span>
                                             </form>
                                             <input type="text" name="selected-rating" id="selected-rating" class="selected-rating" value="0" hidden>
-                                            <button class="btn btn-success btn-circle pull-right" type="submit" id="submit_comment"><span class="glyphicon glyphicon-send"></span> Submit Comment</button>
+                                            <button class="btn btn-success btn-circle pull-right" type="submit" id="submit_review"><span class="glyphicon glyphicon-send"></span> Submit Comment</button>
                                             <div class="clearfix"></div>
                                             <hr>
                                             <div id="user-reviews">
@@ -352,6 +356,9 @@ $('#reading-now').click(function() {
                     '<strong class="text-success">{{review.user.get_full_name}}</strong>' +
                     '<p id="review_id_{{review.id}}">{{review.description}}</p>' +
                     generate_stars(parseInt("{{review.rating_value}}")) + 
+                    '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> (0)</button>' +
+                    '&nbsp&nbsp' + 
+                    '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span> (0)</button>' + 
                 '</div>' +
             '</li>');
     {% endfor %}
@@ -365,7 +372,7 @@ $('#user-rating-form').on('change','[name="rating"]',function(){
     $('input[name=selected-rating]').val($('[name="rating"]:checked').val());
 });
 
-$('#submit_comment').click(function() {
+$('#submit_review').click(function() {
     $.ajax({
         type: "POST",
         data: {
@@ -383,6 +390,13 @@ $('#submit_comment').click(function() {
                 var rating_value = parseInt(new_review.fields.rating_value);
                 var description = new_review.fields.description;
 
+                var first_review = false;
+                if($("#user-reviews").has("p").length){
+                    first_review = true;
+                    $('#user-reviews > p').remove();
+                    $("#user-reviews").append('<ul class="media-list">');
+                }
+
                 $(".media-list").prepend(
                     '<li class="media" id={{request.user.password}}>' + 
                         '<a href="#" class="pull-left">' +
@@ -395,20 +409,25 @@ $('#submit_comment').click(function() {
                             '<strong class="text-success">'+ fullname +'</strong>' +
                             '<p id="review_id_'+ id +'">'+ description +'</p>' +
                             generate_stars(rating_value) + 
+                            '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> (0)</button>' + 
+                            '&nbsp&nbsp' + 
+                            '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span> (0)</button>' + 
                         '</div>' +
                     '</li>');
 
+                if(first_review){$("#user-reviews").append('</ul>');}
                 block_review();
             }
         }
     });
 });
+
 function block_review() {
     {% if user.is_authenticated %}
         var user_comment_exists = document.getElementById("{{request.user.password}}"); 
         if(user_comment_exists){
-            $('#submit_comment').prop('disabled', true);
-            $('#comment-description').attr("placeholder", "You have already given a review!");
+            $('#submit_review').prop('disabled', true);
+            $('#comment-description').val('').attr("placeholder", "You have already given a review!");
             $('#comment-description').attr("disabled", "true");
             $('#user-rating-form').attr("hidden", "true");
         }
