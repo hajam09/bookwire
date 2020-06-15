@@ -356,9 +356,9 @@ $('#reading-now').click(function() {
                     '<strong class="text-success">{{review.user.get_full_name}}</strong>' +
                     '<p id="review_id_{{review.id}}">{{review.description}}</p>' +
                     generate_stars(parseInt("{{review.rating_value}}")) + 
-                    '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> (0)</button>' +
+                    '<button id="review_like_id_{{review.id}}" type="button" class="btn btn-default btn-sm" onclick="like_comment({{review.id}})"><span class="glyphicon glyphicon-thumbs-up"></span> ({{review.likes.count}})</button>' +
                     '&nbsp&nbsp' + 
-                    '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span> (0)</button>' + 
+                    '<button id="review_dislike_id_{{review.id}}" type="button" class="btn btn-default btn-sm" onclick="dislike_comment({{review.id}})"><span class="glyphicon glyphicon-thumbs-down"></span> ({{review.dislikes.count}})</button>' + 
                 '</div>' +
             '</li>');
     {% endfor %}
@@ -371,6 +371,48 @@ $('#user-rating-form').on('change','[name="rating"]',function(){
     $('#selected-rating').text($('[name="rating"]:checked').val());
     $('input[name=selected-rating]').val($('[name="rating"]:checked').val());
 });
+
+function like_comment(review_id) {
+    $.ajax({
+        type: "PUT",
+        data: {
+            functionality: 'like-comment',
+            review_id: review_id,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response){
+            if(response.status_code == 200){
+                var this_review = eval(response.this_review)[0];
+                var number_of_likes = this_review.fields.likes.length;
+                var number_of_dislikes = this_review.fields.dislikes.length;
+
+                $('#review_like_id_'+review_id).html('<span class="glyphicon glyphicon-thumbs-up"></span> ('+ number_of_likes +')');
+                $('#review_dislike_id_'+review_id).html('<span class="glyphicon glyphicon-thumbs-down"></span> ('+ number_of_dislikes +')');
+            }
+        }
+    });
+}
+
+function dislike_comment(review_id) {
+    $.ajax({
+        type: "PUT",
+        data: {
+            functionality: 'dislike-comment',
+            review_id: review_id,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response){
+            if(response.status_code == 200){
+                var this_review = eval(response.this_review)[0];
+                var number_of_likes = this_review.fields.likes.length;
+                var number_of_dislikes = this_review.fields.dislikes.length;
+
+                $('#review_like_id_'+review_id).html('<span class="glyphicon glyphicon-thumbs-up"></span> ('+ number_of_likes +')');
+                $('#review_dislike_id_'+review_id).html('<span class="glyphicon glyphicon-thumbs-down"></span> ('+ number_of_dislikes +')');
+            }
+        }
+    });
+}
 
 $('#submit_review').click(function() {
     $.ajax({
@@ -409,9 +451,9 @@ $('#submit_review').click(function() {
                             '<strong class="text-success">'+ fullname +'</strong>' +
                             '<p id="review_id_'+ id +'">'+ description +'</p>' +
                             generate_stars(rating_value) + 
-                            '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> (0)</button>' + 
+                            '<button id="review_like_id_{{id}}" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> (0)</button>' + 
                             '&nbsp&nbsp' + 
-                            '<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span> (0)</button>' + 
+                            '<button id="review_dislike_id_{{id}}" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span> (0)</button>' + 
                         '</div>' +
                     '</li>');
 

@@ -96,7 +96,6 @@ def mainpage(request):
 
 @csrf_exempt
 def bookinstance(request,isbn_13):
-	Review.objects.all().delete()
 	try:
 		book = Book.objects.get(isbn_13=isbn_13)
 		reviews = Review.objects.filter(book=book).order_by('-created_at')
@@ -153,6 +152,35 @@ def bookinstance(request,isbn_13):
 			else:
 				user.readingnow.remove(book)
 				return HttpResponse(json.dumps({"status_code": 204}), content_type="application/json")
+
+		elif functionality == "like-comment":
+			review_id = PUT.get("review_id")
+			this_review = Review.objects.get(id=int(review_id))
+			list_of_liked = Review.objects.filter(likes__id=user.pk)
+			list_of_disliked = Review.objects.filter(dislikes__id=user.pk)
+			if(this_review not in list_of_liked):
+				user.likes.add(this_review)
+			else:
+				user.likes.remove(this_review)
+			if(this_review in list_of_disliked):
+				user.dislikes.remove(this_review)
+			this_review = serializers.serialize("json", [this_review,])
+			return HttpResponse(json.dumps({"status_code": 200, "this_review": this_review}), content_type="application/json")
+
+		elif functionality == "dislike-comment":
+			review_id = PUT.get("review_id")
+			this_review = Review.objects.get(id=int(review_id))
+			list_of_liked = Review.objects.filter(likes__id=user.pk)
+			list_of_disliked = Review.objects.filter(dislikes__id=user.pk)
+			if(this_review not in list_of_disliked):
+				user.dislikes.add(this_review)
+			else:
+				user.dislikes.remove(this_review)
+			if(this_review in list_of_liked):
+				user.likes.remove(this_review)
+			this_review = serializers.serialize("json", [this_review,])
+			return HttpResponse(json.dumps({"status_code": 200, "this_review": this_review}), content_type="application/json")
+			
 
 	elif request.method == "PUT" and not request.user.is_authenticated:
 		response_data = {"status_code": 403, "message": "Please login to access this feature."}
