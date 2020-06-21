@@ -477,7 +477,6 @@ $('#submit_review').click(function() {
 });
 
 function block_review() {
-    return;
     {% if user.is_authenticated %}
         var user_comment_exists = document.getElementById("{{request.user.password}}"); 
         if(user_comment_exists){

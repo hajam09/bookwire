@@ -96,7 +96,7 @@ def mainpage(request):
 
 @csrf_exempt
 def bookinstance(request,isbn_13):
-	# Review.objects.all().delete()
+	Review.objects.all().delete()
 	try:
 		book = Book.objects.get(isbn_13=isbn_13)
 		reviews = Review.objects.filter(book=book).order_by('-created_at')
