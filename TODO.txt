@@ -1,13 +1,13 @@
 TODO:
 bookpage.html
 * Change the timestamp when the user enters their comment for their first time.
-
 * Fix the symbol on the four buttons.
 * Display a star rating on the book page for it's average rating.
 * User's should be able to edit their comments.
 * User's should be able to delete their comments. (Icon available on the https://www.w3schools.com/icons/bootstrap_icons_glyphicons.asp)
 * Hyperlink of the book title to google search.
 * If user liked/or disliked comment, then change colour to notify them.
+* Truncate long comment string.
 
 profilepage.html
 * Allow user's to upload their own photo in their profile.
