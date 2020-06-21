@@ -30,3 +30,6 @@ class Review(models.Model):
 	created_at = models.DateTimeField()
 	likes = models.ManyToManyField(User, related_name='likes')
 	dislikes = models.ManyToManyField(User, related_name='dislikes')
+
+	def __str__(self):
+		return self.book.isbn_13 + " " + self.user.email

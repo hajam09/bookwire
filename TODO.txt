@@ -1,7 +1,7 @@
 TODO:
 bookpage.html
 * Change the timestamp when the user enters their comment for their first time.
-* User should enter both comment and stars or they cannot enter comment.
+
 * Fix the symbol on the four buttons.
 * Display a star rating on the book page for it's average rating.
 * User's should be able to edit their comments.
@@ -23,3 +23,4 @@ Completed:
 bookpage.html
 * Fix when there is a brand new comment, remove new comment <p> and override with user comment.
 * Have a like or disklike button on each comment and make it functional.
+* User should enter both comment and stars or they cannot enter comment.

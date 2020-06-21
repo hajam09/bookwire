@@ -415,6 +415,10 @@ function dislike_comment(review_id) {
 }
 
 $('#submit_review').click(function() {
+    if ($("#comment-description").val().length==0 || $("#selected-rating").val()==0) {
+        console.log("You need to give text and star rating!");
+        return;
+    }
     $.ajax({
         type: "POST",
         data: {
@@ -465,6 +469,7 @@ $('#submit_review').click(function() {
 });
 
 function block_review() {
+    return;
     {% if user.is_authenticated %}
         var user_comment_exists = document.getElementById("{{request.user.password}}"); 
         if(user_comment_exists){
