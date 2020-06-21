@@ -111,7 +111,7 @@ def bookinstance(request,isbn_13):
 			# In the future delete user's previous comment if exist so it does not cause problem with dataframe.
 			new_review = serializers.serialize("json", [Review.objects.create(book=book, user=request.user, description=description, rating_value=value, created_at=dt.now()),])
 			return HttpResponse(json.dumps({"status_code": 200, "new_review": new_review}), content_type="application/json")
-			# need else statement if cannt create review.
+			# need else statement if cannot create review.
 
 	if request.method == "PUT" and request.user.is_authenticated and not request.user.is_superuser:
 		PUT = QueryDict(request.body)

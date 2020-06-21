@@ -20,7 +20,7 @@ class Book(models.Model):
 	haveread = models.ManyToManyField(User, related_name='haveread')
 
 	def __str__ (self):
-		return self.isbn_13
+		return self.isbn_13 + " " + str(self.average_rating)
 
 class Review(models.Model):
 	book = models.ForeignKey(Book, on_delete=models.CASCADE)
