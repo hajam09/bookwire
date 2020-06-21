@@ -373,6 +373,7 @@ $('#user-rating-form').on('change','[name="rating"]',function(){
 });
 
 function like_comment(review_id) {
+    console.log("like_comment");
     $.ajax({
         type: "PUT",
         data: {
@@ -394,6 +395,7 @@ function like_comment(review_id) {
 }
 
 function dislike_comment(review_id) {
+    console.log("dislike_comment");
     $.ajax({
         type: "PUT",
         data: {
@@ -416,7 +418,7 @@ function dislike_comment(review_id) {
 
 $('#submit_review').click(function() {
     if ($("#comment-description").val().length==0 || $("#selected-rating").val()==0) {
-        console.log("You need to give text and star rating!");
+        alert("You need to give text and star rating!");
         return;
     }
     $.ajax({
@@ -455,9 +457,15 @@ $('#submit_review').click(function() {
                             '<strong class="text-success">'+ fullname +'</strong>' +
                             '<p id="review_id_'+ id +'">'+ description +'</p>' +
                             generate_stars(rating_value) + 
-                            '<button id="review_like_id_{{id}}" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span> (0)</button>' + 
+                            '<button id="review_like_id_' + id + '" type="button" class="btn btn-default btn-sm" onclick="like_comment(' + id + ')">' + 
+                                '<span class="glyphicon glyphicon-thumbs-up"></span>' + 
+                                    ' (0)' + 
+                            '</button>' + 
                             '&nbsp&nbsp' + 
-                            '<button id="review_dislike_id_{{id}}" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-down"></span> (0)</button>' + 
+                            '<button id="review_dislike_id_' + id + '" type="button" class="btn btn-default btn-sm" onclick="dislike_comment(' + id + ')">' + 
+                                '<span class="glyphicon glyphicon-thumbs-down"></span>' + 
+                                    ' (0)' + 
+                            '</button>' + 
                         '</div>' +
                     '</li>');
 

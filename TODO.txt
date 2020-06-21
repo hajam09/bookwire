@@ -5,7 +5,7 @@ bookpage.html
 * Display a star rating on the book page for it's average rating.
 * User's should be able to edit their comments.
 * User's should be able to delete their comments. (Icon available on the https://www.w3schools.com/icons/bootstrap_icons_glyphicons.asp)
-* Hyperlink of the book title to google search.
+* Fix the like/dislike button on a new comment without refresh.
 * If user liked/or disliked comment, then change colour to notify them.
 * Truncate long comment string.
 
@@ -24,3 +24,4 @@ bookpage.html
 * Fix when there is a brand new comment, remove new comment <p> and override with user comment.
 * Have a like or disklike button on each comment and make it functional.
 * User should enter both comment and stars or they cannot enter comment.
+* Hyperlink of the book title to google search.
