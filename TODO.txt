@@ -1,31 +1,37 @@
 TODO:
-bookpage.html
-* Change the timestamp when the user enters their comment for their first time.
-* Fix the symbol on the four buttons.
-* User's should be able to edit their comments.
-* User's should be able to delete their comments. (Icon available on the https://www.w3schools.com/icons/bootstrap_icons_glyphicons.asp)
-* If user liked/or disliked comment, then change colour to notify them.
-* Truncate long comment string.
-* When admin submits review, inform about permission.
 
-profilepage.html
-* Allow user's to upload their own photo in their profile.
-* Fix the change photo button on the profile page.
-* Profile --> Activity (new data required).
-* Profile background change.
+* In userprofile.html, convert user's rating from integer to stars.
 
-* Display the search results in the frontpage properly.
+* In bookpage.html, change the timestamp when the user enters their comment for their first time.
+* In bookpage.html, fix the symbol on the four buttons.
+* In bookpage.html, user's should be able to edit their comments.
+* In bookpage.html, user's should be able to delete their comments.
+* In bookpage.html, if user liked/or disliked comment, then change colour to notify them.
+* In bookpage.html, truncate long comment string.
+* In bookpage.html, when admin submits review, inform about permission.
+* In bookpage.html, add a session to store the user's visited book.
+
+* In usershelf.html, truncate user's long comment.
+* In usershelf.html, redirect to login if not authenticated.
+* In usershelf.html, allow users to delete books from their respective shelf.
+
+* In mainpage.html, display the search results properly.
+
+* In profilepage.html, allow user's to upload their own photo.
+* In profilepage.html, fix the change photo button.
+* In profilepage.html, profile --> Activity (new data required).
+* In profilepage.html, change backround colour to suit visibility.
+
 * At the end of the project, add all dependencies to requirements.txt
-* In usershelf, redirect to login if not authenticated.
 
 Completed:
 bookpage.html
-* Fix when there is a brand new comment, remove new comment <p> and override with user comment.
-* Have a like or disklike button on each comment and make it functional.
-* User should enter both comment and stars or they cannot enter comment.
-* Hyperlink of the book title to google search.
-* Fix the like/dislike button on a new comment without refresh.
-* Display a star rating on the book page for it's average rating.
+* In bookpage.html, fix when there is a brand new comment, remove new comment <p> and override with user comment.
+* In bookpage.html, have a like or disklike button on each comment and make it functional.
+* In bookpage.html, the user should enter both thecomment and stars or they cannot enter comment.
+* In bookpage.html, add hyperlink of the book title to google search.
+* In bookpage.html, fix the like/dislike button on a new comment when not refreshed.
+* In bookpage.html, display the star rating for the book's average rating.
 
-usershelf.html
-* Create a user shelf and display all the books in the correct tabs.
+
+* In usershelf.html, create a user shelf and display all the books in the correct tabs.

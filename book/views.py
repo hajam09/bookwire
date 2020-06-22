@@ -100,6 +100,14 @@ def bookinstance(request,isbn_13):
 	try:
 		book = Book.objects.get(isbn_13=isbn_13)
 		reviews = Review.objects.filter(book=book).order_by('-created_at')
+
+		if request.user.is_authenticated:
+			if 'history' not in request.session:
+				request.session['history'] = []
+			history = request.session['history']
+			if isbn_13 not in history:
+				history.append(isbn_13)
+			request.session['history'] = history
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 
@@ -198,10 +206,14 @@ def bookinstance(request,isbn_13):
 	return render(request, "bookpage.html", context)
 
 def usershelf(request):
+	if 'history' not in request.session:
+		request.session['history'] = []
 	context = {
 		"favourite_book": Book.objects.filter(favourites__id=request.user.pk),
 		"have_read_book": Book.objects.filter(haveread__id=request.user.pk),
 		"to_read_book": Book.objects.filter(toread__id=request.user.pk),
-		"reading_now_book": Book.objects.filter(readingnow__id=request.user.pk)
+		"reading_now_book": Book.objects.filter(readingnow__id=request.user.pk),
+		"reviewed_book": Review.objects.filter(user=request.user.pk),
+		"visited_book": [Book.objects.get(isbn_13=items) for items in request.session['history']]
 	}
 	return render(request, "usershelf.html", context)

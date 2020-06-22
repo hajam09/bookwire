@@ -29,6 +29,22 @@
 					</tr>
 				</thead>
 				<tbody id="rated-result">
+					{% for review in reviewed_book %}
+						<tr id="{{books.isbn_13}}">
+							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{review.book.title}} </a>
+							</td>
+							<td>
+								{{review.book.genre}}
+							</td>
+							<td>
+								{{review.rating_value}}
+							</td>
+							<td>
+								{{review.description}}
+							</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>
@@ -43,6 +59,19 @@
 					</tr>
 				</thead>
 				<tbody id="visited-result">
+					{% for book in visited_book %}
+						<tr id="{{books.isbn_13}}">
+							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{book.title}} </a>
+							</td>
+							<td>
+								{{book.genre}}
+							</td>
+							<td>
+								{{book.average_rating}}
+							</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>
