@@ -9,7 +9,6 @@ TODO:
 * In bookpage.html, if user liked/or disliked comment, then change colour to notify them.
 * In bookpage.html, truncate long comment string.
 * In bookpage.html, when admin submits review, inform about permission.
-* In bookpage.html, add a session to store the user's visited book.
 
 * In usershelf.html, truncate user's long comment.
 * In usershelf.html, allow users to delete books from their respective shelf.
@@ -31,7 +30,6 @@ bookpage.html
 * In bookpage.html, add hyperlink of the book title to google search.
 * In bookpage.html, fix the like/dislike button on a new comment when not refreshed.
 * In bookpage.html, display the star rating for the book's average rating.
-
-
 * In usershelf.html, create a user shelf and display all the books in the correct tabs.
 * In usershelf.html, redirect to login if not authenticated.
+* In bookpage.html, add a session to store the user's visited book.

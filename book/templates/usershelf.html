@@ -99,7 +99,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_favourites({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_from_favourites("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -130,7 +130,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_reading_now({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_from_reading_now("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -161,7 +161,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_to_read({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_from_to_read("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -192,7 +192,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_have_read({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_from_have_read("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -260,5 +260,69 @@
 			});
 		});
 	});
+
+	function remove_from_favourites(isbn_13) {
+		$.ajax({
+			type: "PUT",
+			data: {
+                functionality: 'remove-from-favourites',
+                isbn_13: isbn_13,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+            	if (response.status_code==200 && response.removed) {
+            		$('table#favourites-table tr#' + isbn_13).remove();
+            	}
+            }
+		});
+	}
+
+	function remove_from_reading_now(isbn_13) {
+		$.ajax({
+			type: "PUT",
+			data: {
+                functionality: 'remove-from-reading-now',
+                isbn_13: isbn_13,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+            	if (response.status_code==200 && response.removed) {
+            		$('table#reading-now-table tr#' + isbn_13).remove();
+            	}
+            }
+		});
+	}
+
+	function remove_from_to_read(isbn_13) {
+		$.ajax({
+			type: "PUT",
+			data: {
+                functionality: 'remove-from-to-read',
+                isbn_13: isbn_13,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+            	if (response.status_code==200 && response.removed) {
+            		$('table#to-read-table tr#' + isbn_13).remove();
+            	}
+            }
+		});
+	}
+
+	function remove_from_have_read(isbn_13) {
+		$.ajax({
+			type: "PUT",
+			data: {
+                functionality: 'remove-from-have-read',
+                isbn_13: isbn_13,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+            	if (response.status_code==200 && response.removed) {
+            		$('table#have-read-table tr#' + isbn_13).remove();
+            	}
+            }
+		});
+	}
 </script>
 {% endblock %}

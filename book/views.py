@@ -109,7 +109,7 @@ def bookinstance(request,isbn_13):
 			if isbn_13 not in history:
 				history.append(isbn_13)
 			request.session['history'] = history
-			
+
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 
@@ -208,9 +208,42 @@ def bookinstance(request,isbn_13):
 	return render(request, "bookpage.html", context)
 
 @login_required
+@csrf_exempt
 def usershelf(request):
 	if 'history' not in request.session:
 		request.session['history'] = []
+
+	if request.method == "PUT":
+		PUT = QueryDict(request.body)
+		functionality = PUT.get("functionality")
+		isbn_13 = PUT.get("isbn_13")
+		user = User.objects.get(id=int(request.user.pk))
+		book = Book.objects.get(isbn_13=isbn_13)
+
+		if functionality == "remove-from-favourites":
+			if book in Book.objects.filter(favourites__id=request.user.pk):
+				user.favourites.remove(book)
+				return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
+			return HttpResponse(json.dumps({"status_code": 200, "removed": False}), content_type="application/json")
+
+		elif functionality == "remove-from-reading-now":
+			if book in Book.objects.filter(readingnow__id=request.user.pk):
+				user.readingnow.remove(book)
+				return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
+			return HttpResponse(json.dumps({"status_code": 200, "removed": False}), content_type="application/json")
+
+		elif functionality == "remove-from-to-read":
+			if book in Book.objects.filter(toread__id=request.user.pk):
+				user.toread.remove(book)
+				return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
+			return HttpResponse(json.dumps({"status_code": 200, "removed": False}), content_type="application/json")
+
+		elif functionality == "remove-from-have-read":
+			if book in Book.objects.filter(haveread__id=request.user.pk):
+				user.haveread.remove(book)
+				return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
+			return HttpResponse(json.dumps({"status_code": 200, "removed": False}), content_type="application/json")
+
 	context = {
 		"favourite_book": Book.objects.filter(favourites__id=request.user.pk),
 		"have_read_book": Book.objects.filter(haveread__id=request.user.pk),
