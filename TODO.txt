@@ -1,6 +1,6 @@
 TODO:
 
-* In userprofile.html, convert user's rating from integer to stars.
+* In usershelf.html, convert user's rating from integer to stars.
 
 * In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
@@ -11,7 +11,6 @@ TODO:
 * In bookpage.html, when admin submits review, inform about permission.
 
 * In usershelf.html, truncate user's long comment.
-* In usershelf.html, allow users to delete books from their respective shelf.
 
 * In mainpage.html, display the search results properly.
 
@@ -33,3 +32,4 @@ bookpage.html
 * In usershelf.html, create a user shelf and display all the books in the correct tabs.
 * In usershelf.html, redirect to login if not authenticated.
 * In bookpage.html, add a session to store the user's visited book.
+* In usershelf.html, allow users to delete books from their respective shelf.
