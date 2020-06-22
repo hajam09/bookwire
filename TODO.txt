@@ -15,8 +15,8 @@ profilepage.html
 * Profile background change.
 
 * Display the search results in the frontpage properly.
-* Create a user shelf and display all the books in the correct tabs.
 * At the end of the project, add all dependencies to requirements.txt
+* In usershelf, redirect to login if not authenticated.
 
 Completed:
 bookpage.html
@@ -26,3 +26,6 @@ bookpage.html
 * Hyperlink of the book title to google search.
 * Fix the like/dislike button on a new comment without refresh.
 * Display a star rating on the book page for it's average rating.
+
+usershelf.html
+* Create a user shelf and display all the books in the correct tabs.

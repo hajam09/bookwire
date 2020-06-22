@@ -198,5 +198,10 @@ def bookinstance(request,isbn_13):
 	return render(request, "bookpage.html", context)
 
 def usershelf(request):
-	context = {}
+	context = {
+		"favourite_book": Book.objects.filter(favourites__id=request.user.pk),
+		"have_read_book": Book.objects.filter(haveread__id=request.user.pk),
+		"to_read_book": Book.objects.filter(toread__id=request.user.pk),
+		"reading_now_book": Book.objects.filter(readingnow__id=request.user.pk)
+	}
 	return render(request, "usershelf.html", context)

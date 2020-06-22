@@ -1,0 +1,235 @@
+{% extends "account_base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+	<!-- Nav tabs nav-tabs -->
+	<ul class="nav nav-pills">
+		<li class="active"><a data-toggle="tab" href="#rated">Rated / Reviewed Books</a></li>
+		<li><a data-toggle="tab" href="#recently-viewed">Recently Viewed</a></li>
+		<li><a data-toggle="tab" href="#favourites">Favourites</a></li>
+		<li><a data-toggle="tab" href="#reading-now">Reading Now</a></li>
+		<li><a data-toggle="tab" href="#to-read">To Read</a></li>
+		<li><a data-toggle="tab" href="#have-read">Have Read</a></li>
+		<li><a data-toggle="tab" href="#books-for-me">Books for Me</a></li>
+	</ul>
+	<br>
+	<input id="tablequery" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search for something in the table.">
+
+	<!-- Tab panes -->
+	<div class="tab-content" style="height: 500px; overflow: auto;">
+		<div id="rated" class="tab-pane fade in active">
+			<h3>Rated and Reviewed Books</h3>
+			<table class="table" id="rated-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Your Rating</th>
+						<th scope="col">Your Comment</th>
+					</tr>
+				</thead>
+				<tbody id="rated-result">
+				</tbody>
+			</table>
+		</div>
+		<div id="recently-viewed" class="tab-pane fade">
+			<h3>Recently Viewed Books</h3>
+			<table class="table" id="visited-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Average Rating</th>
+					</tr>
+				</thead>
+				<tbody id="visited-result">
+				</tbody>
+			</table>
+		</div>
+		<div id="favourites" class="tab-pane fade">
+			<h3>Favourite Books</h3>
+			<table class="table" id="favourites-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Average Rating</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody id="favourite-result">
+					{% for books in favourite_book %}
+						<tr id="{{books.isbn_13}}">
+							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+							</td>
+							<td>
+								{{books.genre}}
+							</td>
+							<td>
+								{{books.average_rating}}
+							</td>
+							<td>
+								<button type='button' class='btn btn-danger' onclick='remove_from_favourites({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div id="reading-now" class="tab-pane fade">
+			<h3>Reading Now Books</h3>
+			<table class="table" id="reading-now-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Average Rating</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody id="reading-now-result">
+					{% for books in reading_now_book %}
+						<tr id="{{books.isbn_13}}">
+							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+							</td>
+							<td>
+								{{books.genre}}
+							</td>
+							<td>
+								{{books.average_rating}}
+							</td>
+							<td>
+								<button type='button' class='btn btn-danger' onclick='remove_from_reading_now({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div id="to-read" class="tab-pane fade">
+			<h3>To Read Books</h3>
+			<table class="table" id="to-read-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Average Rating</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody id="to-read-result">
+					{% for books in to_read_book %}
+						<tr id="{{books.isbn_13}}">
+							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+							</td>
+							<td>
+								{{books.genre}}
+							</td>
+							<td>
+								{{books.average_rating}}
+							</td>
+							<td>
+								<button type='button' class='btn btn-danger' onclick='remove_from_to_read({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div id="have-read" class="tab-pane fade">
+			<h3>Have Read</h3>
+			<table class="table" id="have-read-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Average Rating</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody id="have-read-result">
+					{% for books in have_read_book %}
+						<tr id="{{books.isbn_13}}">
+							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+							</td>
+							<td>
+								{{books.genre}}
+							</td>
+							<td>
+								{{books.average_rating}}
+							</td>
+							<td>
+								<button type='button' class='btn btn-danger' onclick='remove_from_have_read({{books.isbn_13})'><i class="glyphicon glyphicon-trash"></i></button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div id="books-for-me" class="tab-pane fade">
+			<h3>Recommendation here</h3>
+			<table class="table" id="recommendation-table" style="table-layout:fixed;">
+				<thead>
+					<tr>
+						<th scope="col">Book Title / Page</th>
+						<th scope="col">Categories</th>
+						<th scope="col">Average Rating</th>
+					</tr>
+				</thead>
+				<tbody id="recommendation-result">
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#rated-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#visited-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#favourite-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#reading-now-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#to-read-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#have-read-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+		$("#tablequery").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#recommendation-result tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>
+{% endblock %}
