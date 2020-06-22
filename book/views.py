@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import QueryDict, HttpResponse
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 
 def mainpage(request):
 	if request.method == "POST":
@@ -205,6 +206,7 @@ def bookinstance(request,isbn_13):
 
 	return render(request, "bookpage.html", context)
 
+@login_required
 def usershelf(request):
 	if 'history' not in request.session:
 		request.session['history'] = []
