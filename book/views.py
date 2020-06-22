@@ -109,6 +109,7 @@ def bookinstance(request,isbn_13):
 			if isbn_13 not in history:
 				history.append(isbn_13)
 			request.session['history'] = history
+			
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 

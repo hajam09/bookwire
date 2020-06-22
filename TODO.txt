@@ -12,7 +12,6 @@ TODO:
 * In bookpage.html, add a session to store the user's visited book.
 
 * In usershelf.html, truncate user's long comment.
-* In usershelf.html, redirect to login if not authenticated.
 * In usershelf.html, allow users to delete books from their respective shelf.
 
 * In mainpage.html, display the search results properly.
@@ -35,3 +34,4 @@ bookpage.html
 
 
 * In usershelf.html, create a user shelf and display all the books in the correct tabs.
+* In usershelf.html, redirect to login if not authenticated.
