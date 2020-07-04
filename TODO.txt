@@ -21,6 +21,8 @@ TODO:
 
 * At the end of the project, add all dependencies to requirements.txt
 
+* Make a separate function for each ajax requests.
+
 Completed:
 bookpage.html
 * In bookpage.html, fix when there is a brand new comment, remove new comment <p> and override with user comment.
@@ -33,3 +35,4 @@ bookpage.html
 * In usershelf.html, redirect to login if not authenticated.
 * In bookpage.html, add a session to store the user's visited book.
 * In usershelf.html, allow users to delete books from their respective shelf.
+* The system should be redirected to book app upon arrival.
