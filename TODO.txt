@@ -20,7 +20,7 @@ TODO:
 * In profilepage.html, change backround colour to suit visibility.
 
 * At the end of the project, add all dependencies to requirements.txt
-
+* Add salting to the users password.
 * Make a separate function for each ajax requests.
 
 Completed:
