@@ -28,9 +28,9 @@
 				</thead>
 				<tbody id="rated-result">
 					{% for review in reviewed_book %}
-						<tr id="{{books.isbn_13}}">
+						<tr id="{{review.book.isbn_13}}">
 							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{review.book.title}} </a>
+								<a style='cursor: pointer;' href='/bookinstance/{{review.book.isbn_13}}' > {{review.book.title}} </a>
 							</td>
 							<td>
 								{{review.book.genre}}
@@ -60,7 +60,7 @@
 					{% for book in visited_book %}
 						<tr id="{{books.isbn_13}}">
 							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{book.title}} </a>
+								<a style='cursor: pointer;' href='/bookinstance/{{book.isbn_13}}' > {{book.title}} </a>
 							</td>
 							<td>
 								{{book.genre}}
@@ -88,7 +88,7 @@
 					{% for books in favourite_book %}
 						<tr id="{{books.isbn_13}}">
 							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+								<a style='cursor: pointer;' href='/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
 							</td>
 							<td>
 								{{books.genre}}
@@ -119,7 +119,7 @@
 					{% for books in reading_now_book %}
 						<tr id="{{books.isbn_13}}">
 							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+								<a style='cursor: pointer;' href='/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
 							</td>
 							<td>
 								{{books.genre}}
@@ -150,7 +150,7 @@
 					{% for books in to_read_book %}
 						<tr id="{{books.isbn_13}}">
 							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+								<a style='cursor: pointer;' href='/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
 							</td>
 							<td>
 								{{books.genre}}
@@ -181,7 +181,7 @@
 					{% for books in have_read_book %}
 						<tr id="{{books.isbn_13}}">
 							<td scope="row" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-								<a style='cursor: pointer;' href='/book/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
+								<a style='cursor: pointer;' href='/bookinstance/{{books.isbn_13}}' > {{books.title}} </a>
 							</td>
 							<td>
 								{{books.genre}}
