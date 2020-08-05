@@ -23,6 +23,7 @@ def login(request):
 		user = authenticate(username=username, password=password)
 		if user:
 			auth_login(request, user)
+			return redirect('book:mainpage')
 		else:
 			context = {"message": "Username or Password did not match!", "username": username}
 			return render(request,"login.html", context)

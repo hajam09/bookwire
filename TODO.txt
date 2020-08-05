@@ -1,6 +1,6 @@
 TODO:
 
-* In usershelf.html, convert user's rating from integer to stars.//
+* In usershelf.html, convert user's rating from integer to stars.
 
 * In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
@@ -12,7 +12,7 @@ TODO:
 
 * In usershelf.html, truncate user's long comment.
 
-* In mainpage.html, display the search results properly.
+* In mainpage.html, display the search results properly.//
 
 * In profilepage.html, allow user's to upload their own photo.
 * In profilepage.html, fix the change photo button.
@@ -23,6 +23,7 @@ TODO:
 * Add salting to the users password.
 * Make a separate function for each ajax requests.
 * Add the CSRF Token for each ajax requests.
+* In book/static/css/mainpage.css remove unwanted styles and rename the folder.
 
 Completed:
 bookpage.html
@@ -38,3 +39,4 @@ bookpage.html
 * In usershelf.html, allow users to delete books from their respective shelf.
 * The system should be redirected to book app upon arrival.
 * In usershelf.html, allow users to visit the book page by clicking the book title.
+* In login.html, redirect user to the mainpage.html
