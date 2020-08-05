@@ -10,7 +10,7 @@ from .utils import generate_token
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
-from book.models import Book
+from book.models import Book, Review
 
 def login(request):
 	if request.method == "POST":
@@ -128,7 +128,15 @@ def profile(request):
 		}
 		return render(request,"profile.html", context)
 
-	context = {"first_name": request.user.first_name, "last_name": request.user.last_name, "email": request.user.email}
+	context = {
+		"first_name": request.user.first_name,
+		"last_name": request.user.last_name,
+		"email": request.user.email,
+		"likes": Review.objects.filter(likes__id=request.user.pk).count(),
+		"dislikes": Review.objects.filter(dislikes__id=request.user.pk).count(),
+		"comments": Review.objects.filter(user=request.user.pk).count(),
+		"books_read": Book.objects.filter(haveread__id=request.user.pk).count()
+	}
 	return render(request,"profile.html", context)
 
 
