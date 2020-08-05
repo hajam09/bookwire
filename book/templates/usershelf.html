@@ -1,6 +1,29 @@
 {% extends "account_base.html" %}
 {% load staticfiles %}
 {% block content %}
+<style type="text/css">
+	.filled-star {
+	    color: green;
+	    font-size: 20px;
+	}
+
+	.empty-star {
+	    color: black;
+	    font-size: 20px;
+	}
+</style>
+<script type="text/javascript">
+	function generate_stars(rating_value) {
+	    var stars = "";
+	    for (var i = 0; i < parseInt(rating_value); i++) {
+	        stars += '<i class="fa fa-star filled-star">&nbsp;</i>';
+	    }
+	    for (var j = i; i < 5; i++) {
+	        stars += '<i class="fa fa-star empty-star">&nbsp;</i>';
+	    }
+	    return stars;
+	}
+</script>
 <div class="container">
 	<ul class="nav nav-pills">
 		<li class="active"><a data-toggle="tab" href="#rated">Rated / Reviewed Books</a></li>
@@ -36,7 +59,9 @@
 								{{review.book.genre}}
 							</td>
 							<td>
-								{{review.rating_value}}
+								<script type="text/javascript">
+									document.write(generate_stars("{{review.rating_value}}"));
+								</script>
 							</td>
 							<td>
 								{{review.description}}
