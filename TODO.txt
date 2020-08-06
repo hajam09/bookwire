@@ -1,6 +1,8 @@
 TODO:
 
 * In usershelf.html, truncate user's long comment.
+* In usershelf.html, convert float ratings into star rating.
+* In usershelf.html, after removing book from shelf, hide the book from the row.
 
 * In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
@@ -42,3 +44,4 @@ bookpage.html
 * In login.html, redirect user to the mainpage.html.
 * In profilepage.html, under activity change to likes, dislikes, comments and books read.
 * In usershelf.html, convert user's rating from integer to stars.
+* The system should lock user's account for 10 minutes after several failed login attempts.

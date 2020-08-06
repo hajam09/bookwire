@@ -367,7 +367,7 @@ $('#reading-now').click(function() {
     $("#user-reviews").append("<p>No reviews has been made for this item!</p>");
 {% endif %}
 
-$('#user-rating-form').on('change','[name="rating"]',function(){
+$('#user-rating-form').on('change','[name="rating"]',function() {
     $('#selected-rating').text($('[name="rating"]:checked').val());
     $('input[name=selected-rating]').val($('[name="rating"]:checked').val());
 });
@@ -381,8 +381,8 @@ function like_comment(review_id) {
             review_id: review_id,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        success: function(response){
-            if(response.status_code == 200){
+        success: function(response) {
+            if(response.status_code == 200) {
                 var this_review = eval(response.this_review)[0];
                 var number_of_likes = this_review.fields.likes.length;
                 var number_of_dislikes = this_review.fields.dislikes.length;
@@ -403,8 +403,8 @@ function dislike_comment(review_id) {
             review_id: review_id,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        success: function(response){
-            if(response.status_code == 200){
+        success: function(response) {
+            if(response.status_code == 200) {
                 var this_review = eval(response.this_review)[0];
                 var number_of_likes = this_review.fields.likes.length;
                 var number_of_dislikes = this_review.fields.dislikes.length;
@@ -430,7 +430,7 @@ $('#submit_review').click(function() {
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         success: function(response) {
-            if(response.status_code == 200){
+            if(response.status_code == 200) {
                 var new_review = eval(response.new_review)[0];
                 var id = new_review.pk;
                 var fullname = "{{ request.user.get_full_name }}";
@@ -439,7 +439,7 @@ $('#submit_review').click(function() {
                 var description = new_review.fields.description;
 
                 var first_review = false;
-                if($("#user-reviews").has("p").length){
+                if($("#user-reviews").has("p").length) {
                     first_review = true;
                     $('#user-reviews > p').remove();
                     $("#user-reviews").append('<ul class="media-list">');
@@ -479,7 +479,7 @@ $('#submit_review').click(function() {
 function block_review() {
     {% if user.is_authenticated %}
         var user_comment_exists = document.getElementById("{{request.user.password}}"); 
-        if(user_comment_exists){
+        if(user_comment_exists) {
             $('#submit_review').prop('disabled', true);
             $('#comment-description').val('').attr("placeholder", "You have already given a review!");
             $('#comment-description').attr("disabled", "true");

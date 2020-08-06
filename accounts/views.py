@@ -11,9 +11,16 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib import messages
 from book.models import Book, Review
+from django.core.cache import cache
 
 def login(request):
 	if request.method == "POST":
+
+		if cache.get('loginAttempts') != None and cache.get('loginAttempts') > 3:
+			cache.set('loginAttempts', cache.get('loginAttempts'), 600)
+			context = {"message": 'Your account has been temporarily locked out because of too many failed login attempts.'}
+			return render(request,"login.html", context)
+
 		username = request.POST['username'].replace(" ", "")
 		password = request.POST['password']
 
@@ -25,6 +32,11 @@ def login(request):
 			auth_login(request, user)
 			return redirect('book:mainpage')
 		else:
+			if cache.get('loginAttempts') == None:
+				cache.set('loginAttempts', 1)
+			else:
+				cache.incr('loginAttempts', 1)
+
 			context = {"message": "Username or Password did not match!", "username": username}
 			return render(request,"login.html", context)
 	return render(request,"login.html", {})
