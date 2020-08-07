@@ -160,9 +160,6 @@ body {
                 <div class="tabbable-line">
                     <ul class="nav nav-tabs ">
                         <li class="active">
-                            <a href="#tab_default_1" data-toggle="tab">Description</a>
-                        </li>
-                        <li>
                             <a href="#tab_default_2" data-toggle="tab">Book Info</a>
                         </li>
                         <li>
@@ -170,11 +167,7 @@ body {
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tab_default_1">
-                            <br>
-                            <p>{{book.description}}</p>
-                        </div>
-                        <div class="tab-pane" id="tab_default_2">
+                        <div class="tab-pane active" id="tab_default_2">
                             <br>
                             <div class="row">
                                 <div class="col-xs-6">
@@ -364,12 +357,6 @@ $('#reading-now').click(function() {
                     '</span>' +
                     '<br>' +
                     editAndDeleteComment("{{review.user.password}}", "{{request.user.password}}", "{{review.id}}") +
-                    // '<div class="btn-group pull-right">'+
-                    //         '<p style="font-size: 20px; cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-                    //             '<b>...</b>'+
-                    //             '</p>'+
-                    //         '<div class="dropdown-menu"> dsfsdf </div>'+
-                    //     '</div>'+
                     '<strong class="text-success">{{review.user.get_full_name}}</strong>' +
                     '<p id="review_id_{{review.id}}">{{review.description}}</p>' +
                     generate_stars(parseInt("{{review.rating_value}}")) + 
@@ -494,6 +481,7 @@ $('#submit_review').click(function() {
 });
 
 function block_review() {
+    return;
     {% if user.is_authenticated %}
         var user_comment_exists = document.getElementById("{{request.user.password}}"); 
         if(user_comment_exists) {
