@@ -389,7 +389,7 @@ $('#reading-now').click(function() {
     {% endfor %}
     $("#user-reviews").append('</ul>');
 {% else %}
-    $("#user-reviews").append("<p>No reviews has been made for this item!</p>");
+    $("#user-reviews").append("<p>No reviews has been made for this book!</p>");
 {% endif %}
 
 $('#user-rating-form').on('change','[name="rating"]',function() {
@@ -502,7 +502,6 @@ $('#submit_review').click(function() {
 });
 
 function block_review() {
-    return;
     {% if user.is_authenticated %}
         var user_comment_exists = document.getElementById("{{request.user.password}}"); 
         if(user_comment_exists) {

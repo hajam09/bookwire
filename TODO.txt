@@ -2,7 +2,6 @@ TODO:
 
 * In usershelf.html, truncate user's long comment.
 * In usershelf.html, convert float ratings into star rating.
-* In usershelf.html, after removing book from shelf, hide the book from the row.
 
 * In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
@@ -10,6 +9,7 @@ TODO:
 * In bookpage.html, if user liked/or disliked comment, then change colour to notify them.
 * In bookpage.html, truncate long comment string.
 * In bookpage.html, when admin submits review, inform about permission.
+* In bookpage.html, when the user adds a review, include the dropdown to edit/delete their review.
 
 * In mainpage.html, display the search results properly.
 
@@ -27,6 +27,7 @@ TODO:
 * In book/static/css/mainpage.css remove unwanted styles and rename the folder.
 * BUG: Prevent double comments from being displayed upon new comment entry in bookpage.html (2nd comment)
 * BUG: Notify user or redirect user to login when they like/dislike a comment.
+* BUG: User cannot write lengthy review in the about the book.
 
 Completed:
 bookpage.html
@@ -49,3 +50,4 @@ bookpage.html
 * In bookpage.html, user's should be able to delete their comments.
 * In bookpage.html remove description tab.
 * In bookpage.html, cover four shelf buttons to a dropdown.
+* In usershelf.html, after removing book from shelf, hide the book from the row.

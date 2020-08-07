@@ -294,7 +294,7 @@
             },
             success: function(response) {
             	if (response.status_code==200 && response.removed) {
-            		$('table#favourites-table tr#' + isbn_13).remove();
+            		remove_row_from_table(isbn_13, "favourites-table");
             	}
             }
 		});
@@ -310,7 +310,7 @@
             },
             success: function(response) {
             	if (response.status_code==200 && response.removed) {
-            		$('table#reading-now-table tr#' + isbn_13).remove();
+            		remove_row_from_table(isbn_13, "reading-now-table");
             	}
             }
 		});
@@ -326,7 +326,7 @@
             },
             success: function(response) {
             	if (response.status_code==200 && response.removed) {
-            		$('table#to-read-table tr#' + isbn_13).remove();
+            		remove_row_from_table(isbn_13, "to-read-table");
             	}
             }
 		});
@@ -342,10 +342,19 @@
             },
             success: function(response) {
             	if (response.status_code==200 && response.removed) {
-            		$('table#have-read-table tr#' + isbn_13).remove();
+            		remove_row_from_table(isbn_13, "have-read-table");
             	}
             }
 		});
+	}
+
+	function remove_row_from_table(isbn_13, table_name) {
+		var table = document.getElementById(table_name);
+		for (var i = 0, row; row = table.rows[i]; i++) {
+			if (row.id==isbn_13) {
+				table.deleteRow(i);
+			}
+		}
 	}
 </script>
 {% endblock %}
