@@ -114,6 +114,57 @@ body {
         </div>
         <div class="col-sm-10" style="padding-left: 90px;">
             <h1><a href="http://www.google.com/search?q={{book.title}}">{{book.title}}</a></h1>
+            <div class="btn-group pull-right">
+                <button style="font-size: 20px; cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <b><i class="glyphicon glyphicon-chevron-down"></i></b>
+                </button>
+                <div class="dropdown-menu">
+                    <div>
+                        {% if in_favourite_Book %}
+                            <button type="button" class="btn btn-danger btn-sm" id="favourites" status="True">
+                                <i class="fa fa-star"></i> Remove from my favourites list
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-info btn-sm" id="favourites" status="False">
+                                <i class="fa fa-star"></i> Add to my favourite list
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if in_have_read_Book %}
+                            <button type="button" class="btn btn-danger btn-sm" id="have-read" status="True">
+                                <i class="fa fa-book"></i> Remove from my have read list
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-info btn-sm" id="have-read" status="False">
+                                <i class="fa fa-book"></i> Add to my have read list
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if in_to_read_Book %}
+                            <button type="button" class="btn btn-danger btn-sm" id="to-read" status="True">
+                                <i class="glyphicon glyphicon-book"></i> Remove from my to read list
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-info btn-sm" id="to-read" status="False">
+                                <i class="glyphicon glyphicon-book"></i> Add to my to read list
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% if in_reading_Book %}
+                            <button type="button" class="btn btn-danger btn-sm" id="reading-now" status="True">
+                                <i class='fas fa-book-open'></i> Remove from my reading now list
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False">
+                                <i class='fas fa-book-open'></i> Add to reading now list
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
             <div id="book-average-rating"></div>
             <a href="#">({{book.ratings_count}}) Votes</a>
             <div class="p-4">
@@ -121,36 +172,6 @@ body {
                 <p>{{book.description}}</p>
             </div>
             <br>
-            <div class="row">
-                <div class="col-xs-6 col-sm-3">
-                    {% if in_favourite_Book %}
-                    <button type="button" class="btn btn-danger btn-sm" id="favourites" status="True"><i class="fa fa-star"></i> Remove from my favourites list</button>
-                    {% else %}
-                    <button type="button" class="btn btn-info btn-sm" id="favourites" status="False"><i class="fa fa-star"></i> Add to my favourite list</button>
-                    {% endif %}
-                </div>
-                <div class="col-xs-6 col-sm-3">
-                    {% if in_have_read_Book %}
-                    <button type="button" class="btn btn-danger btn-sm" id="have-read" status="True"><i class="fa fa-book"></i> Remove from my have read list</button>
-                    {% else %}
-                    <button type="button" class="btn btn-info btn-sm" id="have-read" status="False"><i class="fa fa-book"></i> Add to my have read list</button>
-                    {% endif %}
-                </div>
-                <div class="col-xs-6 col-sm-3">
-                    {% if in_to_read_Book %}
-                    <button type="button" class="btn btn-danger btn-sm" id="to-read" status="True"><i class="glyphicon glyphicon-book"></i> Remove from my to read list</button>
-                    {% else %}
-                    <button type="button" class="btn btn-info btn-sm" id="to-read" status="False"><i class="glyphicon glyphicon-book"></i> Add to my to read list</button>
-                    {% endif %}
-                </div>
-                <div class="col-xs-6 col-sm-3">
-                    {% if in_reading_Book %}
-                    <button type="button" class="btn btn-danger btn-sm" id="reading-now" status="True"><i class='fas fa-book-open'></i> Remove from my reading now list</button>
-                    {% else %}
-                    <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False"><i class='fas fa-book-open'></i> Add to reading now list</button>
-                    {% endif %}
-                </div>
-            </div>
         </div>
     </div>
     <br>

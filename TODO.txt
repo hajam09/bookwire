@@ -25,7 +25,8 @@ TODO:
 * Make a separate function for each ajax requests.
 * Add the CSRF Token for each ajax requests.
 * In book/static/css/mainpage.css remove unwanted styles and rename the folder.
-* BUG: Prevent double comments from being displayed upon new comment entry in bookpage.html
+* BUG: Prevent double comments from being displayed upon new comment entry in bookpage.html (2nd comment)
+* BUG: Notify user or redirect user to login when they like/dislike a comment.
 
 Completed:
 bookpage.html
@@ -47,3 +48,4 @@ bookpage.html
 * The system should lock user's account for 10 minutes after several failed login attempts.
 * In bookpage.html, user's should be able to delete their comments.
 * In bookpage.html remove description tab.
+* In bookpage.html, cover four shelf buttons to a dropdown.
