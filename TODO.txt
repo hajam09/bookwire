@@ -51,3 +51,4 @@ bookpage.html
 * In bookpage.html remove description tab.
 * In bookpage.html, cover four shelf buttons to a dropdown.
 * In usershelf.html, after removing book from shelf, hide the book from the row.
+* In usershelf.html, reduce the functions by passing the functionality as argument when calling.

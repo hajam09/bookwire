@@ -122,7 +122,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_favourites("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-favourites", "favourites-table")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -153,8 +153,9 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_reading_now("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-reading-now", "reading-now-table")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
+
 						</tr>
 					{% endfor %}
 				</tbody>
@@ -184,7 +185,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_to_read("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-to-read", "to-read-table")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -215,7 +216,7 @@
 								{{books.average_rating}}
 							</td>
 							<td>
-								<button type='button' class='btn btn-danger' onclick='remove_from_have_read("{{books.isbn_13}}")'><i class="glyphicon glyphicon-trash"></i></button>
+								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-have-read", "have-read-table")'><i class="glyphicon glyphicon-trash"></i></button>
 							</td>
 						</tr>
 					{% endfor %}
@@ -284,65 +285,17 @@
 		});
 	});
 
-	function remove_from_favourites(isbn_13) {
+	function remove_book_from_shelf(isbn_13, functionality, table_name) {
 		$.ajax({
 			type: "PUT",
 			data: {
-                functionality: 'remove-from-favourites',
+                functionality: functionality,
                 isbn_13: isbn_13,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(response) {
             	if (response.status_code==200 && response.removed) {
-            		remove_row_from_table(isbn_13, "favourites-table");
-            	}
-            }
-		});
-	}
-
-	function remove_from_reading_now(isbn_13) {
-		$.ajax({
-			type: "PUT",
-			data: {
-                functionality: 'remove-from-reading-now',
-                isbn_13: isbn_13,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(response) {
-            	if (response.status_code==200 && response.removed) {
-            		remove_row_from_table(isbn_13, "reading-now-table");
-            	}
-            }
-		});
-	}
-
-	function remove_from_to_read(isbn_13) {
-		$.ajax({
-			type: "PUT",
-			data: {
-                functionality: 'remove-from-to-read',
-                isbn_13: isbn_13,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(response) {
-            	if (response.status_code==200 && response.removed) {
-            		remove_row_from_table(isbn_13, "to-read-table");
-            	}
-            }
-		});
-	}
-
-	function remove_from_have_read(isbn_13) {
-		$.ajax({
-			type: "PUT",
-			data: {
-                functionality: 'remove-from-have-read',
-                isbn_13: isbn_13,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(response) {
-            	if (response.status_code==200 && response.removed) {
-            		remove_row_from_table(isbn_13, "have-read-table");
+            		remove_row_from_table(isbn_13, table_name);
             	}
             }
 		});
