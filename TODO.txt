@@ -7,7 +7,6 @@ TODO:
 * In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
 * In bookpage.html, user's should be able to edit their comments.
-* In bookpage.html, user's should be able to delete their comments.
 * In bookpage.html, if user liked/or disliked comment, then change colour to notify them.
 * In bookpage.html, truncate long comment string.
 * In bookpage.html, when admin submits review, inform about permission.
@@ -45,3 +44,4 @@ bookpage.html
 * In profilepage.html, under activity change to likes, dislikes, comments and books read.
 * In usershelf.html, convert user's rating from integer to stars.
 * The system should lock user's account for 10 minutes after several failed login attempts.
+* In bookpage.html, user's should be able to delete their comments.

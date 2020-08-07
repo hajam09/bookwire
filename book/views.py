@@ -45,6 +45,13 @@ def bookinstance(request,isbn_13):
 			return HttpResponse(json.dumps({"status_code": 200, "new_review": new_review}), content_type="application/json")
 			# need else statement if cannot create review.
 
+	if request.method == "DELETE" and request.user.is_authenticated and not request.user.is_superuser:
+		if(Review.objects.filter(book__isbn_13=isbn_13, user=request.user.pk).exists()):
+			Review.objects.filter(book__isbn_13=isbn_13, user=request.user.pk).delete()
+			return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
+		return HttpResponse(json.dumps({"status_code": 404, "removed": False}), content_type="application/json")
+		
+
 	if request.method == "PUT" and request.user.is_authenticated and not request.user.is_superuser:
 		PUT = QueryDict(request.body)
 		functionality = PUT.get("functionality")

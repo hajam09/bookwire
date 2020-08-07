@@ -97,6 +97,15 @@ body {
     font-weight: bold;
     font-size: 3em;
 }
+
+.edit-delete-link {
+    cursor: pointer;
+}
+
+.edit-delete-link:hover{
+    color: lightblue;
+}
+
 </style>
 <div class="container">
     <div class="row">
@@ -353,6 +362,14 @@ $('#reading-now').click(function() {
                     '<span class="text-muted pull-right">' +
                         '<small class="text-muted">{{review.created_at}}</small>' +
                     '</span>' +
+                    '<br>' +
+                    editAndDeleteComment("{{review.user.password}}", "{{request.user.password}}", "{{review.id}}") +
+                    // '<div class="btn-group pull-right">'+
+                    //         '<p style="font-size: 20px; cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                    //             '<b>...</b>'+
+                    //             '</p>'+
+                    //         '<div class="dropdown-menu"> dsfsdf </div>'+
+                    //     '</div>'+
                     '<strong class="text-success">{{review.user.get_full_name}}</strong>' +
                     '<p id="review_id_{{review.id}}">{{review.description}}</p>' +
                     generate_stars(parseInt("{{review.rating_value}}")) + 
@@ -488,6 +505,18 @@ function block_review() {
     {% endif %}
 }
 
+function unblock_review() {
+    {% if user.is_authenticated %}
+        var user_comment_exists = document.getElementById("{{request.user.password}}"); 
+        if(!user_comment_exists) {
+            $('#submit_review').prop('disabled', false);
+            $('#comment-description').val('').attr("placeholder", "write a comment...");
+            $('#comment-description').removeAttr("disabled");
+            $('#user-rating-form').removeAttr("hidden");
+        }
+    {% endif %}
+}
+
 function generate_stars(rating_value) {
     var stars = "";
     for (var i = 0; i < rating_value; i++) {
@@ -503,6 +532,42 @@ function book_average_rating(argument) {
     var average = Math.round("{{ book.average_rating }}");
     var stars = generate_stars(average);
     $('#book-average-rating').append(stars);
+}
+
+function editAndDeleteComment(reviewId, authenticatedId, commentId) {
+    if (reviewId == authenticatedId) {
+        return `<div class="btn-group pull-right">
+                    <button style="font-size: 20px; cursor: pointer;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <b>...</b>
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="edit-delete-link">&nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-pencil">&nbsp;Edit</i>
+                        </div>
+                        <div class="edit-delete-link" onclick="deleteComment(`+commentId+`)";>&nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-trash">&nbsp;Delete</i>
+                        </div>
+                    </div>
+                </div>`;    
+    }
+    return "";
+}
+
+function deleteComment(commentId) {
+    $.ajax({
+        type: "DELETE",
+        data: {
+            functionality: 'delete-review',
+            description: commentId,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response) {
+            if(response.status_code == 200 && response.removed) {
+                document.getElementById('{{request.user.password}}').remove();
+                unblock_review();
+            }
+        }
+    })
 }
 </script>
 {% endblock %}
