@@ -8,17 +8,18 @@ TODO:
 * In bookpage.html, user's should be able to edit their comments.
 * In bookpage.html, if user liked/or disliked comment, then change colour to notify them.
 * In bookpage.html, truncate long comment string.
-* In bookpage.html, when admin submits review, inform about permission.
+* In bookpage.html, when admin submits review, inform about permission or block from reviewing.
 * In bookpage.html, when the user adds a review, include the dropdown to edit/delete their review.
+* In bookpage.html, merge block_review() and unblock_review()
 
 * In mainpage.html, display the search results properly.
 
 * In profilepage.html, allow user's to upload their own photo.
 * In profilepage.html, fix the change photo button.
-* In profilepage.html, profile --> Activity (new data required).
 * In profilepage.html, change backround colour to suit visibility.
 * In profilepage.html, user should be delete their account.
 * In profilepage.html, permanently delete user's account after 30 days of delete request.
+* In profilepage.html, allow the user to change email and verify after.
 
 * At the end of the project, add all dependencies to requirements.txt
 * Add salting to the users password.
@@ -28,6 +29,7 @@ TODO:
 * BUG: Prevent double comments from being displayed upon new comment entry in bookpage.html (2nd comment)
 * BUG: Notify user or redirect user to login when they like/dislike a comment.
 * BUG: User cannot write lengthy review in the about the book.
+* Create a class that inherits Enum to store all the status code and messages.
 
 Completed:
 bookpage.html
@@ -52,3 +54,4 @@ bookpage.html
 * In bookpage.html, cover four shelf buttons to a dropdown.
 * In usershelf.html, after removing book from shelf, hide the book from the row.
 * In usershelf.html, reduce the functions by passing the functionality as argument when calling.
+* In bookpage.html merge the button functions.

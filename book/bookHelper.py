@@ -60,7 +60,7 @@ def googleBooksAPIRequests(booksearch):
 					averageRating = book['volumeInfo']['averageRating']
 				else:
 					averageRating = 0.0
-				averageRating = round(averageRating,1)
+				averageRating = round(averageRating * 2) / 2
 
 				if('ratingsCount' in book['volumeInfo']):
 					ratingsCount = book['volumeInfo']['ratingsCount']

@@ -1,112 +1,7 @@
 {% extends "account_base.html" %}
 {% load staticfiles %}
 {% block content %}
-<style type="text/css">
-
-body {
-    /*background: #545963;*/
-    /*color: white;*/
-    /*margin-top: 20px;*/
-}
-
-.comment-wrapper .panel-body {
-    max-height: 650px;
-    overflow: auto;
-}
-
-.comment-wrapper .media-list .media img {
-    width: 64px;
-    height: 64px;
-    border: 2px solid #e5e7e8;
-}
-
-.comment-wrapper .media-list .media {
-    border-bottom: 1px dashed #efefef;
-    margin-bottom: 25px;
-}
-
-.filled-star {
-    color: green;
-    font-size: 20px;
-}
-
-.empty-star {
-    color: black;
-    font-size: 20px;
-}
-
-.glyphicon-thumbs-up, .glyphicon-thumbs-down{
-    font-size: 15px;
-}
-
-.user-rating {
-    direction: rtl;
-    font-size: 20px;
-    unicode-bidi: bidi-override;
-    padding: 10px 30px;
-    display: inline-block;
-}
-
-.user-rating input {
-    opacity: 0;
-    position: relative;
-    left: -15px;
-    z-index: 2;
-    cursor: pointer;
-}
-
-.user-rating span.star:before {
-    color: green;
-    content: "ï€†";
-}
-
-.user-rating span.star {
-    display: inline-block;
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    position: relative;
-    z-index: 1;
-}
-
-.user-rating span {
-    margin-left: -15px;
-}
-
-.user-rating span.star:before {
-    color: green;
-    content: "\f006";
-}
-
-.user-rating input:hover+span.star:before,
-.user-rating input:hover+span.star~span.star:before,
-.user-rating input:checked+span.star:before,
-.user-rating input:checked+span.star~span.star:before {
-    color: green;
-    content: "\f005";
-}
-
-.selected-rating {
-    color: green;
-    font-weight: bold;
-    font-size: 3em;
-}
-
-.selected-rating-2 {
-    color: green;
-    font-weight: bold;
-    font-size: 3em;
-}
-
-.edit-delete-link {
-    cursor: pointer;
-}
-
-.edit-delete-link:hover{
-    color: lightblue;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bookpage.css' %}" />
 <div class="container">
     <div class="row">
         <div class="col-sm-2 hidden-xs">
@@ -121,45 +16,45 @@ body {
                 <div class="dropdown-menu">
                     <div>
                         {% if in_favourite_Book %}
-                            <button type="button" class="btn btn-danger btn-sm" id="favourites" status="True">
-                                <i class="fa fa-star"></i> Remove from my favourites list
+                            <button type="button" class="btn btn-danger btn-sm" id="favourites" status="True" onclick="add_remove_book_from_shelf('favourites', 'favourites', 'fa fa-star')">
+                                <i class="fa fa-star"></i> REMOVE FROM MY FAVOURITES LIST
                             </button>
                         {% else %}
-                            <button type="button" class="btn btn-info btn-sm" id="favourites" status="False">
-                                <i class="fa fa-star"></i> Add to my favourite list
+                            <button type="button" class="btn btn-info btn-sm" id="favourites" status="False" onclick="add_remove_book_from_shelf('favourites', 'favourites', 'fa fa-star')">
+                                <i class="fa fa-star"></i> ADD TO MY FAVOURITES LIST
                             </button>
                         {% endif %}
                     </div>
                     <div>
                         {% if in_have_read_Book %}
-                            <button type="button" class="btn btn-danger btn-sm" id="have-read" status="True">
-                                <i class="fa fa-book"></i> Remove from my have read list
+                            <button type="button" class="btn btn-danger btn-sm" id="have-read" status="True" onclick="add_remove_book_from_shelf('have-read', 'have-read', 'fa fa-book')">
+                                <i class="fa fa-book"></i> REMOVE FROM MY HAVE READ LIST
                             </button>
                         {% else %}
-                            <button type="button" class="btn btn-info btn-sm" id="have-read" status="False">
-                                <i class="fa fa-book"></i> Add to my have read list
+                            <button type="button" class="btn btn-info btn-sm" id="have-read" status="False" onclick="add_remove_book_from_shelf('have-read', 'have-read', 'fa fa-book')">
+                                <i class="fa fa-book"></i> ADD TO MY HAVE READ LIST
                             </button>
                         {% endif %}
                     </div>
                     <div>
                         {% if in_to_read_Book %}
-                            <button type="button" class="btn btn-danger btn-sm" id="to-read" status="True">
-                                <i class="glyphicon glyphicon-book"></i> Remove from my to read list
+                            <button type="button" class="btn btn-danger btn-sm" id="to-read" status="True" onclick="add_remove_book_from_shelf('to-read', 'to-read', 'glyphicon glyphicon-book')">
+                                <i class="glyphicon glyphicon-book"></i> REMOVE FROM MY TO READ LIST
                             </button>
                         {% else %}
-                            <button type="button" class="btn btn-info btn-sm" id="to-read" status="False">
-                                <i class="glyphicon glyphicon-book"></i> Add to my to read list
+                            <button type="button" class="btn btn-info btn-sm" id="to-read" status="False" onclick="add_remove_book_from_shelf('to-read', 'to-read', 'glyphicon glyphicon-book')">
+                                <i class="glyphicon glyphicon-book"></i> ADD TO MY TO READ LIST
                             </button>
                         {% endif %}
                     </div>
                     <div>
                         {% if in_reading_Book %}
-                            <button type="button" class="btn btn-danger btn-sm" id="reading-now" status="True">
-                                <i class='fas fa-book-open'></i> Remove from my reading now list
+                            <button type="button" class="btn btn-danger btn-sm" id="reading-now" status="True" onclick="add_remove_book_from_shelf('reading-now', 'reading-now', 'fas fa-book-open')">
+                                <i class='fas fa-book-open'></i> REMOVE FROM MY READING NOW LIST
                             </button>
                         {% else %}
-                            <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False">
-                                <i class='fas fa-book-open'></i> Add to reading now list
+                            <button type="button" class="btn btn-info btn-sm" id="reading-now" status="False" onclick="add_remove_book_from_shelf('reading-now', 'reading-now', 'fas fa-book-open')">
+                                <i class='fas fa-book-open'></i> ADD TO MY READING NOW LIST
                             </button>
                         {% endif %}
                     </div>
@@ -255,11 +150,12 @@ body {
 <script type="text/javascript">
 $(document).ready(function() { block_review(); book_average_rating(); });
 
-$('#favourites').click(function() {
+function add_remove_book_from_shelf(functionality, button_Id, button_icon) {
+    console.log(functionality);
     $.ajax({
         type: "PUT",
         data: {
-            functionality: 'favourites',
+            functionality: functionality,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         success: function(response) {
@@ -267,102 +163,67 @@ $('#favourites').click(function() {
                 alert(response.message);
                 return;
             } else if (response.status_code == 204) {
-                var button = $("#favourites")
+                var button = $("#" + button_Id)
                 if (button.attr("status") == "False") {
+
+                    switch ( functionality ) {
+
+                        case "favourites":
+                            button_message = "REMOVE FROM MY FAVOURITES LIST";
+                        break;
+
+                        case "have-read":
+                            button_message = "REMOVE FROM MY HAVE READ LIST";
+                        break;
+
+                        case "to-read":
+                            button_message = "REMOVE FROM MY TO READ LIST";
+                        break;
+
+                        case "reading-now":
+                            button_message = "REMOVE FROM MY READING NOW LIST";
+                        break;
+
+                        default:
+                            button_message = "LIST NOT FOUND!";
+                    }
+
                     button.attr("status", "True")
                     button.attr("class", "btn btn-danger btn-sm")
-                    button.html(' <i class="fa fa-star"></i> Remove from my favourites list');
+                    button.html('<i class="' + button_icon + '"></i> ' + button_message);
+
                 } else {
+
+                    switch ( functionality ) {
+                        
+                        case "favourites":
+                            button_message = "ADD TO MY FAVOURITES LIST";
+                        break;
+
+                        case "have-read":
+                            button_message = "ADD TO MY HAVE READ LIST";
+                        break;
+
+                        case "to-read":
+                            button_message = "ADD TO MY TO READ LIST";
+                        break;
+
+                        case "reading-now":
+                            button_message = "ADD TO MY READING NOW LIST";
+                        break;
+
+                        default:
+                            button_message = "LIST NOT FOUND!";
+                    }
+
                     button.attr("status", "False")
                     button.attr("class", "btn btn-info btn-sm")
-                    button.html('<i class="fa fa-star"></i> Add to my favourites list');
+                    button.html('<i class="' + button_icon + '"></i> ' + button_message);
                 }
             }
         }
     });
-});
-
-$('#have-read').click(function() {
-    $.ajax({
-        type: "PUT",
-        data: {
-            functionality: 'have-read',
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: function(response) {
-            if (response.status_code == 403) {
-                alert(response.message);
-                return;
-            } else if (response.status_code == 204) {
-                var button = $("#have-read")
-                if (button.attr("status") == "False") {
-                    button.attr("status", "True")
-                    button.attr("class", "btn btn-danger btn-sm")
-                    button.html('<i class="fa fa-book"></i> Remove from my have read list');
-                } else {
-                    button.attr("status", "False")
-                    button.attr("class", "btn btn-info btn-sm")
-                    button.html('<i class="fa fa-book"></i> Add to my have read list');
-                }
-            }
-        }
-    });
-});
-
-$('#to-read').click(function() {
-    $.ajax({
-        type: "PUT",
-        data: {
-            functionality: 'to-read',
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: function(response) {
-            if (response.status_code == 403) {
-                alert(response.message);
-                return;
-            } else if (response.status_code == 204) {
-                var button = $("#to-read")
-                if (button.attr("status") == "False") {
-                    button.attr("status", "True")
-                    button.attr("class", "btn btn-danger btn-sm")
-                    button.html('<i class="glyphicon glyphicon-book"></i> Remove from my to read list');
-                } else {
-                    button.attr("status", "False")
-                    button.attr("class", "btn btn-info btn-sm")
-                    button.html('<i class="glyphicon glyphicon-book"></i> Add to my to read list');
-                }
-            }
-        }
-    });
-});
-
-$('#reading-now').click(function() {
-    $.ajax({
-        type: "PUT",
-        data: {
-            functionality: 'reading-now',
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-        },
-        success: function(response) {
-            if (response.status_code == 403) {
-                alert(response.message);
-                return;
-            } else if (response.status_code == 204) {
-                var button = $("#reading-now")
-                if (button.attr("status") == "False") {
-                    button.attr("status", "True")
-                    button.attr("class", "btn btn-danger btn-sm")
-                    button.html('<i class="fas fa-book-open"></i> Remove from my reading now list');
-                } else {
-                    button.attr("status", "False")
-                    button.attr("class", "btn btn-info btn-sm")
-                    button.html('<i class="fas fa-book-open"></i> Add to my reading now list');
-                }
-            }
-        }
-    });
-});
-
+}
 
 {% if reviews %}
     $("#user-reviews").append('<ul class="media-list">');
@@ -536,7 +397,7 @@ function generate_stars(rating_value) {
     return stars;
 }
 
-function book_average_rating(argument) {
+function book_average_rating() {
     var average = Math.round("{{ book.average_rating }}");
     var stars = generate_stars(average);
     $('#book-average-rating').append(stars);

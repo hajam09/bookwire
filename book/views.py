@@ -35,6 +35,8 @@ def bookinstance(request,isbn_13):
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 
+	print(book.average_rating)
+
 	if request.method == "POST" and request.user.is_authenticated and not request.user.is_superuser:
 		functionality = request.POST["functionality"]
 		if functionality == "create-review":
