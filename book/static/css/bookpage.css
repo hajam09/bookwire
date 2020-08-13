@@ -30,6 +30,11 @@ body {
     font-size: 20px;
 }
 
+.fa-star-half-o {
+    color: green;
+    font-size: 20px;
+}
+
 .glyphicon-thumbs-up, .glyphicon-thumbs-down{
     font-size: 15px;
 }

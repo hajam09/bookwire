@@ -55,3 +55,4 @@ bookpage.html
 * In usershelf.html, after removing book from shelf, hide the book from the row.
 * In usershelf.html, reduce the functions by passing the functionality as argument when calling.
 * In bookpage.html merge the button functions.
+* In bookpage.html compute half stars for the average book rating.

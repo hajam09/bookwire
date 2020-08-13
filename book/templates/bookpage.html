@@ -388,19 +388,30 @@ function unblock_review() {
 
 function generate_stars(rating_value) {
     var stars = "";
-    for (var i = 0; i < rating_value; i++) {
-        stars += '<i class="fa fa-star filled-star">&nbsp;</i>';
-    }
-    for (var j = i; i < 5; i++) {
-        stars += '<i class="fa fa-star empty-star">&nbsp;</i>';
+
+    if ( rating_value % 1 === 0) {
+        for (var i = 0; i < rating_value; i++) {
+            stars += '<i class="fa fa-star filled-star">&nbsp;</i>';
+        }
+        for (var j = i; i < 5; i++) {
+            stars += '<i class="fa fa-star empty-star">&nbsp;</i>';
+        }
+    } else {
+        for (var i = 1; i < rating_value; i++) {
+            console.log(i);
+            stars += '<i class="fa fa-star filled-star">&nbsp;</i>';
+        }
+        stars += '<i class="fa fa-star-half-o">&nbsp;</i>';
+        for (var j = i; i < 5; i++) {
+            stars += '<i class="fa fa-star empty-star">&nbsp;</i>';
+        }
+        console.log("not int");
     }
     return stars;
 }
 
 function book_average_rating() {
-    var average = Math.round("{{ book.average_rating }}");
-    var stars = generate_stars(average);
-    $('#book-average-rating').append(stars);
+    $('#book-average-rating').append(generate_stars("{{ book.average_rating }}"));
 }
 
 function editAndDeleteComment(reviewId, authenticatedId, commentId) {
