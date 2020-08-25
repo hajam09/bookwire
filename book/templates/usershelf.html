@@ -91,7 +91,9 @@
 								{{book.genre}}
 							</td>
 							<td>
-								{{book.average_rating}}
+								<script type="text/javascript">
+									document.write(generate_stars("{{book.average_rating}}"));
+								</script>
 							</td>
 						</tr>
 					{% endfor %}
@@ -119,7 +121,9 @@
 								{{books.genre}}
 							</td>
 							<td>
-								{{books.average_rating}}
+								<script type="text/javascript">
+									document.write(generate_stars("{{books.average_rating}}"));
+								</script>
 							</td>
 							<td>
 								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-favourites", "favourites-table")'><i class="glyphicon glyphicon-trash"></i></button>
@@ -150,7 +154,9 @@
 								{{books.genre}}
 							</td>
 							<td>
-								{{books.average_rating}}
+								<script type="text/javascript">
+									document.write(generate_stars("{{books.average_rating}}"));
+								</script>
 							</td>
 							<td>
 								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-reading-now", "reading-now-table")'><i class="glyphicon glyphicon-trash"></i></button>
@@ -182,7 +188,9 @@
 								{{books.genre}}
 							</td>
 							<td>
-								{{books.average_rating}}
+								<script type="text/javascript">
+									document.write(generate_stars("{{books.average_rating}}"));
+								</script>
 							</td>
 							<td>
 								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-to-read", "to-read-table")'><i class="glyphicon glyphicon-trash"></i></button>
@@ -213,7 +221,9 @@
 								{{books.genre}}
 							</td>
 							<td>
-								{{books.average_rating}}
+								<script type="text/javascript">
+									document.write(generate_stars("{{books.average_rating}}"));
+								</script>
 							</td>
 							<td>
 								<button type='button' class='btn btn-danger' onclick='remove_book_from_shelf("{{books.isbn_13}}", "remove-from-have-read", "have-read-table")'><i class="glyphicon glyphicon-trash"></i></button>

@@ -35,8 +35,6 @@ def bookinstance(request,isbn_13):
 	except Book.DoesNotExist:
 		return redirect("book:mainpage")
 
-	print(book.average_rating)
-
 	if request.method == "POST" and request.user.is_authenticated and not request.user.is_superuser:
 		functionality = request.POST["functionality"]
 		if functionality == "create-review":
@@ -44,6 +42,16 @@ def bookinstance(request,isbn_13):
 			value = request.POST["value"]
 			# In the future delete user's previous comment if exist so it does not cause problem with dataframe.
 			new_review = serializers.serialize("json", [Review.objects.create(book=book, user=request.user, description=description, rating_value=value, created_at=dt.now()),])
+
+			# calculating the new average rating and ratins count
+			currentTotalRating = book.ratings_count * book.average_rating
+			newTotalRating = currentTotalRating + int(value)
+			newRatingCount = book.ratings_count + 1
+			newAverageRating = round(newTotalRating/newRatingCount, 1)
+			book.ratings_count = newRatingCount
+			book.average_rating = newAverageRating
+			book.save()
+
 			return HttpResponse(json.dumps({"status_code": 200, "new_review": new_review}), content_type="application/json")
 			# need else statement if cannot create review.
 

@@ -11,6 +11,8 @@ TODO:
 * In bookpage.html, when admin submits review, inform about permission or block from reviewing.
 * In bookpage.html, when the user adds a review, include the dropdown to edit/delete their review.
 * In bookpage.html, merge block_review() and unblock_review()
+* In bookpage.html, when the user deletes their comment, reduce the rating count and average rating accordingly.
+* In bookpage.html, for each comment add a tag that verfies the comment based on the user's have read book.
 
 * In mainpage.html, display the search results properly.
 
@@ -56,3 +58,4 @@ bookpage.html
 * In usershelf.html, reduce the functions by passing the functionality as argument when calling.
 * In bookpage.html merge the button functions.
 * In bookpage.html compute half stars for the average book rating.
+* In bookpage.html, when the user adds a new comment, increase the rating count and average rating accordingly.
