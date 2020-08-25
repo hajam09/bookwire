@@ -43,7 +43,7 @@ def bookinstance(request,isbn_13):
 			# In the future delete user's previous comment if exist so it does not cause problem with dataframe.
 			new_review = serializers.serialize("json", [Review.objects.create(book=book, user=request.user, description=description, rating_value=value, created_at=dt.now()),])
 
-			# calculating the new average rating and ratins count
+			# calculating the new average rating and rating count for adding a new review
 			currentTotalRating = book.ratings_count * book.average_rating
 			newTotalRating = currentTotalRating + int(value)
 			newRatingCount = book.ratings_count + 1
@@ -56,11 +56,25 @@ def bookinstance(request,isbn_13):
 			# need else statement if cannot create review.
 
 	if request.method == "DELETE" and request.user.is_authenticated and not request.user.is_superuser:
-		if(Review.objects.filter(book__isbn_13=isbn_13, user=request.user.pk).exists()):
-			Review.objects.filter(book__isbn_13=isbn_13, user=request.user.pk).delete()
-			return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
-		return HttpResponse(json.dumps({"status_code": 404, "removed": False}), content_type="application/json")
-		
+		DELETE = QueryDict(request.body)
+		functionality = DELETE.get("functionality")
+
+		if functionality == "delete-review":
+			if(Review.objects.filter(book__isbn_13=isbn_13, user=request.user.pk).exists()):
+				this_review = Review.objects.get(book__isbn_13=isbn_13, user=request.user.pk)
+
+				# calculating the new average rating and rating count for deleting an existing review
+				currentTotalRating = book.ratings_count * book.average_rating
+				newTotalRating = currentTotalRating - this_review.rating_value
+				newRatingCount = book.ratings_count - 1
+				newAverageRating = round(newTotalRating/newRatingCount, 1)
+				book.ratings_count = newRatingCount
+				book.average_rating = newAverageRating
+				book.save()
+
+				this_review.delete()
+				return HttpResponse(json.dumps({"status_code": 200, "removed": True}), content_type="application/json")
+			return HttpResponse(json.dumps({"status_code": 404, "removed": False}), content_type="application/json")		
 
 	if request.method == "PUT" and request.user.is_authenticated and not request.user.is_superuser:
 		PUT = QueryDict(request.body)

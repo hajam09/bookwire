@@ -436,7 +436,6 @@ function deleteComment(commentId) {
         type: "DELETE",
         data: {
             functionality: 'delete-review',
-            description: commentId,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         success: function(response) {
