@@ -29,59 +29,56 @@ body {
 </div>
 <div class="container">
     {% if bookresults %}
-        {% if bookresults|length > 0 %}
-            <div class="content-wrapper">
-                <div class="w-container">
-                    <div class="w-row">
-                        <div class="content-column w-col w-col-9">
-                            <div class="w-dyn-list">
-                                <div class="w-dyn-items">
-                                    {% for books in bookresults %}
-                                    <br>
-                                        <div class="w-dyn-item">
-                                            <div class="post-wrapper">
-                                                <div class="post-content">
-                                                    <div class="w-row">
-                                                        <div class="w-col w-col-4 w-col-medium-4">
-                                                            <img class="blog-image w-inline-block" alt="" src="{{books.thumbnail}}"/>
+        <div class="content-wrapper">
+            <div class="w-container">
+                <div class="w-row">
+                    <div class="content-column w-col w-col-9">
+                        <div class="w-dyn-list">
+                            <div class="w-dyn-items">
+                                {% for books in bookresults %}
+                                <br>
+                                    <div class="w-dyn-item">
+                                        <div class="post-wrapper">
+                                            <div class="post-content">
+                                                <div class="w-row">
+                                                    <div class="w-col w-col-4 w-col-medium-4">
+                                                        <img class="blog-image w-inline-block" alt="" src="{{books.thumbnail}}"/>
+                                                    </div>
+                                                    <div class="w-col w-col-8 w-col-medium-8">
+                                                        <a class="blog-title-link w-inline-block" href="{% url 'book:bookinstance' isbn_13=books.isbn_13 %}">
+                                                            <h2 class="blog-title">{{books.title}}</h2>
+                                                        </a>
+                                                        <div class="details-wrapper">
+                                                            <div class="post-info">Published Date: {{books.published_date}}</div>
+                                                            <div class="post-info">|</div>
+                                                            <div class="post-info">Publisher: {{books.publisher}}</div>
                                                         </div>
-                                                        <div class="w-col w-col-8 w-col-medium-8">
-                                                            <a class="blog-title-link w-inline-block" href="{% url 'book:bookinstance' isbn_13=books.isbn_13 %}">
-                                                                <h2 class="blog-title">{{books.title}}</h2>
-                                                            </a>
-                                                            <div class="details-wrapper">
-                                                                <div class="post-info">Published Date: {{books.published_date}}</div>
-                                                                <div class="post-info">|</div>
-                                                                <div class="post-info">Publisher: {{books.publisher}}</div>
-                                                            </div>
-                                                            <div class="details-wrapper">
-                                                                <div class="post-info"> Authors: {{books.authors}}</div>
-                                                                <div class="post-info">|</div>
-                                                                <div class="post-info">Genre: {{books.genre}}</div>
-                                                            </div>
-                                                            <div class="details-wrapper">
-                                                                <div class="post-info"> Average Rating: {{books.average_rating}}</div>
-                                                                <div class="post-info">|</div>
-                                                                <div class="post-info">Ratings Count: {{books.ratings_count}}</div>
-                                                            </div>
+                                                        <div class="details-wrapper">
+                                                            <div class="post-info"> Authors: {{books.authors}}</div>
+                                                            <div class="post-info">|</div>
+                                                            <div class="post-info">Genre: {{books.genre}}</div>
+                                                        </div>
+                                                        <div class="details-wrapper">
+                                                            <div class="post-info"> Average Rating: {{books.average_rating}}</div>
+                                                            <div class="post-info">|</div>
+                                                            <div class="post-info">Ratings Count: {{books.ratings_count}}</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    {% endfor %}
-                                </div>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endif %}
-    {% else %}
-        {% if no_result %}
-            <br><br>
-            <div style="text-align: center;margin: auto;" class="alert alert-danger" role="alert"> {{no_result}} </div>
-        {% endif %}
+        </div>
+    {% endif %}
+    {% if no_result %}
+        <br><br>
+        <div style="text-align: center;margin: auto;" class="alert alert-danger" role="alert"> {{no_result}} </div>
     {% endif %}
 </div>
 <script type="text/javascript">

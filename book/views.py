@@ -14,7 +14,10 @@ def mainpage(request):
 		bookSearchQuery = request.POST["booksearch"]
 		requestedBooks = googleBooksAPIRequests(bookSearchQuery)
 
-		return render(request, "mainpage.html", {"bookresults":requestedBooks, "no_result":"Sorry, we could't find any results matching {}".format(bookSearchQuery)})
+		if len(requestedBooks) > 0:
+			return render(request, "mainpage.html", {"bookresults": requestedBooks})
+		return render(request, "mainpage.html", {"no_result": "Sorry, we could't find any results matching {}".format(bookSearchQuery)})
+
 	return render(request, "mainpage.html",{})
 
 @csrf_exempt

@@ -32,6 +32,8 @@ TODO:
 * BUG: User cannot write lengthy review in the about the book.
 * Create a class that inherits Enum to store all the status code and messages.
 
+* In dashboard, record: pageload time for each page (top 50), post request count, get request count, API request count, total page visit, specific page visit, user domain email, total login count, online users, put request count, delete request count, total email sent, user count, book count, review count, today login count, db size, user country, user browser.
+
 Completed:
 bookpage.html
 * In bookpage.html, fix when there is a brand new comment, remove new comment <p> and override with user comment.
@@ -59,3 +61,4 @@ bookpage.html
 * In bookpage.html compute half stars for the average book rating.
 * In bookpage.html, when the user adds a new comment, increase the rating count and average rating accordingly.
 * In bookpage.html, when the user deletes their comment, reduce the rating count and average rating accordingly.
+* In mainpage view, return appropriate context by checking the result length rather than returns two context.
