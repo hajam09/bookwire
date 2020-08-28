@@ -2,6 +2,7 @@ TODO:
 
 * In usershelf.html, truncate user's long comment.
 * In usershelf.html, convert float ratings into star rating.
+* In usershelf.html, users can sort the table into both ascending and descending order.
 
 * In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
@@ -18,7 +19,6 @@ TODO:
 * In profilepage.html, allow user's to upload their own photo.
 * In profilepage.html, fix the change photo button.
 * In profilepage.html, change backround colour to suit visibility.
-* In profilepage.html, user should be delete their account.
 * In profilepage.html, permanently delete user's account after 30 days of delete request.
 * In profilepage.html, allow the user to change email and verify after.
 
@@ -35,7 +35,6 @@ TODO:
 * In dashboard, record: pageload time for each page (top 50), post request count, get request count, API request count, total page visit, specific page visit, user domain email, total login count, online users, put request count, delete request count, total email sent, user count, book count, review count, today login count, db size, user country, user browser.
 
 Completed:
-bookpage.html
 * In bookpage.html, fix when there is a brand new comment, remove new comment <p> and override with user comment.
 * In bookpage.html, have a like or disklike button on each comment and make it functional.
 * In bookpage.html, the user should enter both thecomment and stars or they cannot enter comment.
@@ -62,3 +61,4 @@ bookpage.html
 * In bookpage.html, when the user adds a new comment, increase the rating count and average rating accordingly.
 * In bookpage.html, when the user deletes their comment, reduce the rating count and average rating accordingly.
 * In mainpage view, return appropriate context by checking the result length rather than returns two context.
+* In profilepage.html, user should be delete their account.

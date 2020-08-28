@@ -99,6 +99,7 @@ li {
                             <br>
                             <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
                             <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            <input type="button" class="btn btn-lg btn-danger" value="Delete Account" onclick="deleteAccount();">
                         </div>
                     </div>
                 </form>
@@ -128,4 +129,64 @@ li {
     <!--/col-9-->
 </div>
 <!--/row-->
+<script type="text/javascript">
+    function deleteAccount() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+                confirmPassword();
+            }
+        })
+    }
+
+    async function confirmPassword() {
+        const { value: password } =  await Swal.fire({
+            title: 'Enter your password',
+            input: 'password',
+            inputPlaceholder: 'Enter your password',
+            showCancelButton: true,
+            inputAttributes: {
+                autocapitalize: 'off',
+                autocorrect: 'off' 
+            }
+        })
+        if (password) {
+            $.ajax({
+                type: "GET",
+                data: {
+                    functionality: 'confirm-password',
+                    password: password,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(response) {
+                    // confirm delete
+                    if (response.status_code == 200 && !response.account_exists) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: response.message,
+                            text: "You will be redirected in a moment.",
+                        });
+                        setTimeout(function(){ document.location.href = "{% url 'accounts:login' %}"; }, 3000);
+                    }
+
+                    // incorrect password
+                    if (response.status_code == 400 && response.account_exists) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: response.message,
+                        });
+                    }
+                    return;
+                }
+            });
+        }
+    }
+</script>
 {% endblock %}

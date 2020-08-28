@@ -12,6 +12,8 @@ from django.conf import settings
 from django.contrib import messages
 from book.models import Book, Review
 from django.core.cache import cache
+from django.http import HttpResponse
+import json
 
 def login(request):
 	if request.method == "POST":
@@ -103,6 +105,15 @@ def logout(request):
 
 @login_required
 def profile(request):
+	if request.method == "GET" and request.user.is_authenticated and not request.user.is_superuser:
+		if request.is_ajax():
+			functionality = request.GET["functionality"]
+			if functionality == "confirm-password":
+				if request.user.check_password(request.GET["password"]):
+					User.objects.get(id=int(request.user.pk)).delete()
+					return HttpResponse(json.dumps({"status_code": 200, "account_exists": False, "message": "Your account has been deleted successfully."}), content_type="application/json")
+				return HttpResponse(json.dumps({"status_code": 400, "account_exists": True, "message": "Your pasword did not match with our records."}), content_type="application/json")
+
 	if request.method == "POST":
 		firstname = request.POST['first_name'].strip()
 		lastname = request.POST['last_name'].strip()
