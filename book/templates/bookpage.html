@@ -320,7 +320,7 @@ $('#submit_review').click(function() {
                 var new_review = eval(response.new_review)[0];
                 var id = new_review.pk;
                 var fullname = "{{ request.user.get_full_name }}";
-                var created_at = new_review.fields.created_at;
+                var created_at = parseDate(new_review.fields.created_at);
                 var rating_value = parseInt(new_review.fields.rating_value);
                 var description = new_review.fields.description;
 
@@ -445,6 +445,27 @@ function deleteComment(commentId) {
             }
         }
     })
+}
+
+function parseDate(date) {
+    date = new Date(date).toString();
+    date = date.split(" ");
+    return date[1] + ". " + date[2] + ", " + date[3] + ", " + get12HourFormat(date[4]);
+}
+
+function get12HourFormat(time) {
+    time = time.split(":");
+    hours = parseInt(time[0]);
+
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    ampm = [ampm.slice(0, 1), '.', ampm.slice(1)].join('');
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    minutes = parseInt(time[1]);
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    return hours + ":" + minutes + " " + ampm + ".";
 }
 </script>
 {% endblock %}

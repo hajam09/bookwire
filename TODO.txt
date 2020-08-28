@@ -4,7 +4,6 @@ TODO:
 * In usershelf.html, convert float ratings into star rating.
 * In usershelf.html, users can sort the table into both ascending and descending order.
 
-* In bookpage.html, change the timestamp when the user enters their comment for their first time.
 * In bookpage.html, fix the symbol on the four buttons.
 * In bookpage.html, user's should be able to edit their comments.
 * In bookpage.html, if user liked/or disliked comment, then change colour to notify them.
@@ -62,3 +61,4 @@ Completed:
 * In bookpage.html, when the user deletes their comment, reduce the rating count and average rating accordingly.
 * In mainpage view, return appropriate context by checking the result length rather than returns two context.
 * In profilepage.html, user should be delete their account.
+* In bookpage.html, change the timestamp when the user enters their comment for their first time.
