@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+ky1kdb$a+s1ex#z7&gq3++w%=(q5!b135^^6b-^(g$ywxn(!e'
+SECRET_KEY = 'g(h0y$n=h$@(s*8huw=+ac&9m@kk0a)g9$ad1g@2u$vx^wus=8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'book',
     'debug_toolbar',
+    'crispy_forms',
     'forum',
 ]
 
@@ -123,12 +124,16 @@ USE_TZ = True
 # Debug Toolbar
 # =============
 INTERNAL_IPS = ['127.0.0.1']
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     )
+LOGIN_URL ="/accounts/login"

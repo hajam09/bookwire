@@ -1,8 +1,11 @@
-from django.shortcuts import render
-from book.utils import googleBooksAPIRequests
 from book.models import Book
-import pandas as pd
+from book.utils import googleBooksAPIRequests
+from django.http import JsonResponse
+from django.shortcuts import render
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import sigmoid_kernel
 from sklearn.preprocessing import MinMaxScaler
+import pandas as pd
 
 def mainpage(request):
 	if request.method == "POST":
@@ -29,6 +32,69 @@ def mainpage(request):
 	}
 	
 	return render(request, "book/mainpage.html", context)
+
+def bookinstance(request, isbn_13):
+	try:
+		book = Book.objects.get(isbn13=isbn_13)
+	except Book.DoesNotExist  as e:
+		raise e
+
+	shelf = {
+		"inFavourites": True if request.user in book.isFavourite.all() else False,
+		"inReadingNow": True if request.user in book.readingNow.all() else False,
+		"inToRead": True if request.user in book.toRead.all() else False,
+		"inHaveRead": True if request.user in book.haveRead.all() else False,
+	}
+	context = {
+		"book": book,
+		"shelf": shelf,
+		"similarBooks": similarBooks(book)
+	}
+	return render(request, "book/bookinstance.html", context)
+
+def updateShelf(request, *args, **kwargs):
+	"""
+		User adds or removes book from their shelf.
+	"""
+	import time
+	start_time = time.time()
+	if not request.user.is_authenticated:
+		response = {
+			"action": False,
+			"message": "Login to perform this action."
+		}
+		return JsonResponse(response, status=401)
+
+	if not request.is_ajax() or kwargs['isbn_13'] == None or kwargs['shelf_type'] == None:
+		response = {
+			"action": False,
+			"message": "Unable to perform action at this time."
+		}
+		return JsonResponse(response, status=400)
+
+	book = Book.objects.get(isbn13=kwargs['isbn_13'])
+	shelf = {}
+
+	if request.is_ajax() and request.method == "POST":
+		if kwargs['shelf_type'] == 'favourites':
+			shelf['inFavourites'] = book.updateIsFavourite(request)
+			
+		elif kwargs['shelf_type'] == 'readingNow':
+			shelf['inReadingNow'] = book.updateReadingNow(request)
+
+		elif kwargs['shelf_type'] == 'toRead':
+			shelf['inToRead'] = book.updateToRead(request)
+
+		elif kwargs['shelf_type'] == 'haveRead':
+			shelf['inHaveRead'] = book.updateHaveRead(request)
+
+	response = {
+		"action": True,
+		"message": "",
+		"shelf": shelf
+	}
+	print("--- %s seconds ---" % (time.time() - start_time))
+	return JsonResponse(response, status=200)
 
 def recentlyAddedBooks():
 	allBooks = Book.objects.all()
@@ -87,6 +153,69 @@ def booksBasedOnRatings():
 	booksScoredFromDf = df.sort_values(['score'], ascending=False)
 	finalResult = list(booksScoredFromDf[['isbn13']].head(15)['isbn13'])
 
+	return [ dictBooks[isbn] for isbn in finalResult ]
+
+def similarBooks(book):
+	"""
+		Make recommendations based on the books’s description.
+	"""
+	if Book.objects.count() == 0 or not isinstance(book, Book):
+		return []
+
+	allBooks = Book.objects.all().prefetch_related('isFavourite')
+	dictBooks = {}
+
+	for i in allBooks:
+
+		dictBooks[i.unCleanData["isbn13"]] = {
+			"isbn13": i.unCleanData["isbn13"],
+			"title": i.unCleanData['title'],
+			"thumbnail": i.unCleanData['thumbnail']
+		}
+
+		i.cleanData.pop("authors")
+		i.cleanData.pop("averageRating")
+		i.cleanData.pop("genre")
+		i.cleanData.pop("isbn10")
+		i.cleanData.pop("publishedDate")
+		i.cleanData.pop("publisher")
+		i.cleanData.pop("ratingsCount")
+		i.cleanData.pop("thumbnail")
+		i.cleanData.pop("uid")
+
+	allBooksCleaned = [i.cleanData for i in allBooks]
+
+	df = pd.DataFrame(allBooksCleaned)
+
+	tfidfVectorizer = TfidfVectorizer(
+		min_df=3, 
+		max_features=None,
+		strip_accents='unicode',
+		analyzer='word',
+		token_pattern=r'\w{1,}',
+		ngram_range=(1, 3),
+		stop_words = 'english'
+	)
+
+	df['description'] = df['description'].fillna('')
+	tfvMatrix = tfidfVectorizer.fit_transform(df['description'])
+	sigmoid = sigmoid_kernel(tfvMatrix, tfvMatrix)
+	indices = pd.Series(df.index, index=df['title']).drop_duplicates()
+
+	def giveRecommendation(title, sigmoid=sigmoid):
+	    try:
+	        idx = indices[title].iloc[0]
+	    except:
+	    	# couldn't catch specific exception dur to 'numpy.int64' object has no attribute 'iloc'
+	        idx = indices[title]
+
+	    sigmoidScores = list(enumerate(sigmoid[idx]))
+	    sigmoidScores = sorted(sigmoidScores, key=lambda x: x[1], reverse=True)
+	    sigmoidScores = sigmoidScores[1:11]
+	    bookIndices = [i[0] for i in sigmoidScores]
+	    return df['isbn13'].iloc[bookIndices]
+
+	finalResult = list(giveRecommendation(book.cleanData['title']))
 	return [ dictBooks[isbn] for isbn in finalResult ]
 
 def favouriteBooksFromSimilarUsers(request):

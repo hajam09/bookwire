@@ -101,7 +101,7 @@
             <div class="swiper-wrapper">
                 {% for books in recentlyAddedBooks %}
                 <div class="swiper-slide">
-                    <a style="cursor: pointer;" href='/book_page/{{books.isbn_13}}'>
+                    <a style="cursor: pointer;" href="{% url 'book:bookinstance' books.isbn13 %}">
                         <p class="lead img-responsive">
                             <img src={{books.thumbnail}} alt="No Image" style="height: 200px;">
                         </p>
@@ -130,7 +130,7 @@
             <div class="swiper-wrapper">
                 {% for books in booksBasedOnRatings %}
                 <div class="swiper-slide">
-                    <a style="cursor: pointer;" href='/book_page/{{books.isbn_13}}'>
+                    <a style="cursor: pointer;" href="{% url 'book:bookinstance' books.isbn13 %}">
                         <p class="lead img-responsive">
                             <img src={{books.thumbnail}} alt="No Image" style="height: 200px;">
                         </p>

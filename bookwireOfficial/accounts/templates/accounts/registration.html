@@ -1,80 +1,65 @@
 {% extends "accounts/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/loginAndRegistration.css' %}" />
 <style type="text/css">
-    body,html{height:90%;}
+.login-container {
+    max-width: 500px
+}
+
+.login-container .loginbox {
+    width: 500px!important;
+}
+.login-container .loginbox .loginbox-social .social-buttons {
+
+    padding-left: 137px
+}
 </style>
-<div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4 border">
-        	{% if message %}
-            	<div style="color: black; text-align: center;" class="alert alert-danger" role="alert">{{message}}</div>
-            {% endif %}
-            <h2 class="display-4 py-2 text-truncate">Register</h2>
-            <div class="px-2">
-                <form method="post" class="justify-content-center">
-                	{% csrf_token %}
-                    <div class="form-group">
-                        <label class="sr-only">Firstname</label>
-                        <input type="text" class="form-control" name="firstName" placeholder="Firstname" value="{% if firstName %}{{firstName}}{% endif %}" required>
+<div class="container">
+    <br><br><br>
+    <div class="login-container animated fadeInDown bootstrap snippets bootdeys">
+        <div class="loginbox bg-white" style="-webkit-box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)">
+            <form method="post">
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="color: black; text-align: center;" class="alert alert-danger" role="alert">{{message}}</div>
+                    {% endfor %}
+                {% endif %}
+                
+                {% csrf_token %}
+                <div class="loginbox-title">Register</div>
+                <div class="loginbox-social">
+                    <div class="social-title ">Connect with Your Social Accounts</div>
+                    <div class="social-buttons">
+                        <a href="#" class="button-facebook">
+                        <i class="social-icon fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="button-twitter">
+                        <i class="social-icon fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="button-google">
+                        <i class="social-icon fa fa-google-plus"></i>
+                        </a>
                     </div>
-                    <div class="form-group">
-                        <label class="sr-only">Lastname</label>
-                        <input type="text" class="form-control" name="lastName" placeholder="Lastname" value="{% if lastName %}{{lastName}}{% endif %}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only">Email</label>
-                        <input type="text" class="form-control" name="username" placeholder="Email" value="{% if username %}{{username}}{% endif %}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only">Password</label>
-                        <input type="password" class="form-control" name="password" placeholder="Password" required/>
-                    </div>
-                    <div class="form-group">
-                    	<div class="pull-left">
-                    		<label class="checkbox-inline">
-                    			<input type="checkbox" name="rememberMe" />&nbsp;&nbsp;Remember Me
-                    		</label>
-                    	</div>
-                        <div class="pull-right"><a href="#" onclick="showHidePassword();">Show Password</a></div>
-                    </div>
-                    <input type="text" name="uniqueVisitorId" id="uniqueVisitorId" hidden>
-                    <input type="submit" class="btn btn-primary btn-block" value="Login">
-                </form>
-            </div>
+                </div>
+                <div class="loginbox-or">
+                    <div class="or-line"></div>
+                    <div class="or">OR</div>
+                </div>
+
+                <div class="loginbox-textbox">
+                    {{form | crispy}}
+                </div>
+                <div class="loginbox-submit">
+                    <input type="submit" class="btn btn-primary btn-block" value="Register">
+                </div>
+                <div class="loginbox-social">
+                    <div class="social-title ">Already have an account? <a href="{% url 'accounts:login' %}">Sign in</a></div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-	function showHidePassword()
-	{
-		var password = $("[name='password']");
-		password.attr("type")=="password" ? password.attr("type","text") : password.attr("type","password");
-
-	}
-
-	function generateUniqueVisitorId()
-	{
-
-		if ( localStorage.getItem('uniqueVisitorId') )
-		{
-			$('#uniqueVisitorId').val( localStorage.getItem('uniqueVisitorId') );
-			return;
-		}
-
-		var result = '';
-		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		var charactersLength = characters.length;
-
-		for ( var i = 0; i < 10; i++ )
-		{
-			result += characters.charAt(Math.floor(Math.random() * charactersLength));
-		}
-
-		localStorage.setItem('uniqueVisitorId', result)
-		$('#uniqueVisitorId').val(result);
-	}
-
-	generateUniqueVisitorId();
-</script>
 {% endblock %}
