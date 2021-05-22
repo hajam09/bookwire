@@ -1,19 +1,22 @@
-from django.shortcuts import render
-from django.core.cache import cache
-from django.contrib.auth import authenticate
-from accounts.forms import RegistrationForm
 from accounts.forms import LoginForm
-from django.core.cache import cache
+from accounts.forms import RegistrationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout as auth_logout
+from django.core.cache import cache
+from django.core.cache import cache
 from django.shortcuts import redirect
+from django.shortcuts import render
 
 def login(request):
 
+	if not request.session.session_key:
+		request.session.save()
+
 	if request.method == "POST":
-		uniqueVisitorId = request.POST['uniqueVisitorId']
+		uniqueVisitorId = request.session.session_key
 
 		if cache.get(uniqueVisitorId) != None and cache.get(uniqueVisitorId) > 3:
-			print("FAIL")
 			cache.set(uniqueVisitorId, cache.get(uniqueVisitorId), 600)
 			messages.add_message(
 				request,
@@ -40,6 +43,10 @@ def login(request):
 		"form": form
 	}
 	return render(request, 'accounts/login.html', context)
+
+def logout(request):
+	auth_logout(request)
+	return redirect('accounts:login')
 
 def register(request):
 	if request.method == "POST":

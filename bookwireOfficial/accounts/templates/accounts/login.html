@@ -39,7 +39,7 @@
                 <div class="loginbox-textbox">
                     {{form | crispy}}
                 </div>
-                <input type="text" name="uniqueVisitorId" id="uniqueVisitorId" hidden>
+                <!-- <input type="text" name="uniqueVisitorId" id="uniqueVisitorId" hidden> -->
                 <div class="loginbox-submit">
                     <input type="submit" class="btn btn-primary btn-block" value="Login">
                 </div>
@@ -81,7 +81,5 @@
 
     $( "#div_id_remember_me" ).addClass( "checkbox-inline" );
     $( "#div_id_remember_me" ).append( '<a class="pull-right" href="#" onclick="showHidePassword();" style="color: #007bff;">Show Password</a>' );
-
-    generateUniqueVisitorId();
 </script>
 {% endblock %}
