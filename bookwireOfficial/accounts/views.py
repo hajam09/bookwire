@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout as auth_logout
 from django.core.cache import cache
-from django.core.cache import cache
 from django.shortcuts import redirect
 from django.shortcuts import render
 
