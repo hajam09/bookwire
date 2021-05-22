@@ -101,9 +101,10 @@
             <div class="swiper-wrapper">
                 {% for books in recentlyAddedBooks %}
                 <div class="swiper-slide">
-                    <a style="cursor: pointer;" href="{% url 'book:bookinstance' books.isbn13 %}">
+                    <a style="cursor: pointer;" href="{% url 'book:bookPage' books.isbn13 %}">
                         <p class="lead img-responsive">
-                            <img src={{books.thumbnail}} alt="No Image" style="height: 200px;">
+                            <img src="https://via.placeholder.com/200x300" alt="No Image" style="height: 200px;">
+                            <!-- {{books.thumbnail}} -->
                         </p>
                         <p align="center">{{books.title}}</p>
                     </a>
@@ -130,9 +131,10 @@
             <div class="swiper-wrapper">
                 {% for books in booksBasedOnRatings %}
                 <div class="swiper-slide">
-                    <a style="cursor: pointer;" href="{% url 'book:bookinstance' books.isbn13 %}">
+                    <a style="cursor: pointer;" href="{% url 'book:bookPage' books.isbn13 %}">
                         <p class="lead img-responsive">
-                            <img src={{books.thumbnail}} alt="No Image" style="height: 200px;">
+                            <img src="https://via.placeholder.com/200x300" alt="No Image" style="height: 200px;">
+                            <!-- {{books.thumbnail}} -->
                         </p>
                         <p align="center">{{books.title}}</p>
                     </a>

@@ -40,7 +40,8 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-4 col-md-auto">
-								<img src="{{book.unCleanData.thumbnail}}" height="300px;">
+								<img src="https://via.placeholder.com/200x300" style="width: 200px;">
+								<!-- {{book.unCleanData.thumbnail}} -->
 								<div style="height: 5px;"></div>
 								<div id="id_shelf_buttons">
 									<div id="div_favourite_container" class="row justify-content-md-center">
@@ -89,14 +90,15 @@
 					<div class="card">
 						<div class="card-body">
 							{% if similarBooks %}
-							<p style="font-weight:bold;font-size: 20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recently Added Books...</p>
+							<p style="font-weight:bold;font-size: 20px">Recently Added Books</p>
 							<div class="swiper-container">
 								<div class="swiper-wrapper">
 									{% for books in similarBooks %}
 									<div class="swiper-slide">
-										<a style="cursor: pointer;" href="{% url 'book:bookinstance' books.isbn13 %}">
+										<a style="cursor: pointer;" href="{% url 'book:bookPage' books.isbn13 %}">
 											<p class="lead img-responsive">
-												<img src={{books.thumbnail}} alt="No Image" style="height: 200px;">
+												<img src="https://via.placeholder.com/200x300" alt="No Image" style="height: 200px;">
+												<!-- {{books.thumbnail}} -->
 											</p>
 											<p align="center">{{books.title}}</p>
 										</a>
@@ -109,6 +111,32 @@
 							</div>
 							{% endif %}
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row h-100 align-items-center">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto form p-4">
+			<div class="row justify-content-md-center">
+				<div class="col-sm-12">
+					<div class="card">
+						<form method="post" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+							{% csrf_token %}
+							<p style="font-weight:bold;font-size: 20px">Leave Comment</p>
+							<div class="mb-4">
+								<span class="star-rating" id="star-rating">
+								</span>
+							</div>
+							<div class="form-group">
+								<label>Your Comment</label>
+								<textarea class="form-control" id="id-comment-text-area" name="comment-text-area" rows="5" onkeydown="bookCommentBoxListener()" onkeypress="bookCommentBoxListener()" onkeyup="bookCommentBoxListener()" required></textarea>
+								<label id="id-minimum-characters-left">Minimum characters left: 100</label>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-primary btn-sm" type="submit" id="comment-submit-button" disabled> Submit Comment </button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -127,7 +155,27 @@
 		shelfButtonsComponent( readingNowBtn, "Reading Now", "id_reading_now_btn", "readingNow", "div_readingNow_container");
 		shelfButtonsComponent( toReadBtn, "To Read", "id_to_read_btn", "toRead", "div_toRead_container");
 		shelfButtonsComponent( haveReadBtn, "Have Read", "id_have_read_btn", "haveRead", "div_haveRead_container");
+
+		starRatingComponent(0);
 	});
+
+	function starRatingComponent( counter )
+	{
+		$('#star-rating').empty();
+
+		for (var i = 1; i <= counter; i++)
+		{
+			$('#star-rating').append( `<i class="fas fa-star star-filled" style="font-size: 20px; color: blue;" onclick="starRatingComponent(`+i+`)";></i>&nbsp;` );
+		}
+
+		for (var j = i; j <= 5; j++)
+		{
+			$('#star-rating').append( `<i class="far fa-star star-empty" style="font-size: 20px; color: blue;" onclick="starRatingComponent(`+j+`)"></i>&nbsp;` );
+		}
+
+		bookCommentBoxListener();
+		
+	}
 
 	function shelfButtonsComponent( btnStatus, btnName, btnId, shelfName, btnContainer )
 	{
@@ -191,6 +239,18 @@
 		`;
 		$('#p_book_description').empty();
 		$('#p_book_description').append( textComponent );
+	}
+
+	function bookCommentBoxListener()
+	{
+		var boxLength = $("#id-comment-text-area").val().length;
+
+		if ( boxLength >= 100 && $('.star-filled').length > 0 )
+			$('#comment-submit-button').prop('disabled', false);
+		else
+			$('#comment-submit-button').prop('disabled', true);
+
+		$("#id-minimum-characters-left").text("Minimum characters left: " + (100 - boxLength));
 	}
 
 	var swiper = new Swiper('.swiper-container', {

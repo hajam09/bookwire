@@ -33,7 +33,7 @@ def mainpage(request):
 	
 	return render(request, "book/mainpage.html", context)
 
-def bookinstance(request, isbn_13):
+def bookPage(request, isbn_13):
 	try:
 		book = Book.objects.get(isbn13=isbn_13)
 	except Book.DoesNotExist  as e:
@@ -45,12 +45,13 @@ def bookinstance(request, isbn_13):
 		"inToRead": True if request.user in book.toRead.all() else False,
 		"inHaveRead": True if request.user in book.haveRead.all() else False,
 	}
+	
 	context = {
 		"book": book,
 		"shelf": shelf,
 		"similarBooks": similarBooks(book)
 	}
-	return render(request, "book/bookinstance.html", context)
+	return render(request, "book/bookPage.html", context)
 
 def updateShelf(request, *args, **kwargs):
 	"""

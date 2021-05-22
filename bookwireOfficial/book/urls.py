@@ -6,6 +6,6 @@ app_name = "book"
 
 urlpatterns = [
 	path('', views.mainpage, name='mainpage'),
-	path('bookinstance/<slug:isbn_13>', views.bookinstance, name='bookinstance'),
+	path('bookPage/<slug:isbn_13>', views.bookPage, name='bookPage'),
 	re_path(r'^updateShelf/(?P<isbn_13>.*)/(?P<shelf_type>.*)$',views.updateShelf, name='updateShelf'),
 ]
