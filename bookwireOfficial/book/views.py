@@ -1,6 +1,8 @@
 from book.models import Book
+from book.models import BookReview
 from book.utils import googleBooksAPIRequests
 from django.http import JsonResponse
+from django.http import QueryDict
 from django.shortcuts import render
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import sigmoid_kernel
@@ -96,6 +98,62 @@ def updateShelf(request, *args, **kwargs):
 	}
 	print("--- %s seconds ---" % (time.time() - start_time))
 	return JsonResponse(response, status=200)
+
+def bookComment(request, *args, **kwargs):
+	"""
+		User can create, update and delete comments for a particular book.
+	"""
+	if not request.user.is_authenticated:
+		response = {
+			"action": False,
+			"message": "Login to perform this action."
+		}
+		return JsonResponse(response, status=401)
+
+	if not request.is_ajax() or kwargs['isbn_13'] == None or kwargs['action'] == None:
+		response = {
+			"action": False,
+			"message": "Unable to perform action at this time."
+		}
+		return JsonResponse(response, status=400)
+
+	book = Book.objects.get(isbn13=kwargs['isbn_13'])
+
+	if request.is_ajax() and request.method == "POST":
+		if kwargs['action'] == 'create':
+			body = QueryDict(request.body)
+			newComment = body.get("newComment")
+			starCount = body.get("starCount")
+
+			bookReview = BookReview.objects.create(
+				book = book,
+				creator = request.user,
+				description = newComment,
+				rating = starCount,
+			)
+
+			response = {
+				"action": True,
+				"bookReview": {
+					'pk': bookReview.pk,
+					'full_name': bookReview.creator.get_full_name(),
+					'edited': bookReview.edited,
+					'description': bookReview.description,
+					'like_count': 0,
+					'dislike_count': 0,
+					'can_edit': True
+				},
+			}
+			return JsonResponse(response, status=200)
+
+		elif kwargs['action'] == 'update':
+			pass
+
+		elif kwargs['action'] == 'delete':
+			pass
+
+	return JsonResponse({}, status=200)
+
 
 def recentlyAddedBooks():
 	allBooks = Book.objects.all()

@@ -7,11 +7,6 @@
 		min-width:140px;
 	}
 
-	.book-image {
-		height: 170px;
-		width: 140px;
-	}
-
 	.swiper-slide {
 		text-align: center;
 		font-size: 18px;
@@ -30,6 +25,38 @@
 		-ms-flex-align: center;
 		-webkit-align-items: center;
 		align-items: center;
+	}
+
+	.total-like {
+		border: 1px solid;
+		border-radius: 50px;
+		display: inline-block;
+		font-weight: 500;
+		height: 34px;
+		line-height: 33px;
+		padding: 0 13px;
+		vertical-align: top;
+	}
+	.text-black {
+		color: #000000;
+	}
+	.reviews-members .media .mr-3 {
+		width: 56px;
+		height: 56px;
+		object-fit: cover;
+	}
+	.rounded-pill {
+		border-radius: 50rem!important;
+	}
+	.total-like {
+		border: 1px solid;
+		border-radius: 50px;
+		display: inline-block;
+		font-weight: 500;
+		height: 34px;
+		line-height: 33px;
+		padding: 0 13px;
+		vertical-align: top;
 	}
 </style>
 <div class="container h-100">
@@ -121,7 +148,7 @@
 			<div class="row justify-content-md-center">
 				<div class="col-sm-12">
 					<div class="card">
-						<form method="post" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+						<div method="post" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
 							{% csrf_token %}
 							<p style="font-weight:bold;font-size: 20px">Leave Comment</p>
 							<div class="mb-4">
@@ -134,16 +161,20 @@
 								<label id="id-minimum-characters-left">Minimum characters left: 100</label>
 							</div>
 							<div class="form-group">
-								<button class="btn btn-primary btn-sm" type="submit" id="comment-submit-button" disabled> Submit Comment </button>
+								<button class="btn btn-primary btn-sm" type="submit" id="comment-submit-button" onclick="submitBookComment();" disabled> Submit Comment </button>
 							</div>
-						</form>
+
+							<hr/>
+							<p style="font-weight:bold;font-size: 20px">All rating and reviews</p>
+							<div id="id-book-comment-container"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript">  
+<script type="text/javascript">	
 	$( document ).ready(function()
 	{
 		var favouriteBtn = eval('{{ shelf.inFavourites|yesno:"true,false" }}');
@@ -157,10 +188,99 @@
 		shelfButtonsComponent( haveReadBtn, "Have Read", "id_have_read_btn", "haveRead", "div_haveRead_container");
 
 		starRatingComponent(0);
+		collectBookReviews();
 	});
+
+	function collectBookReviews()
+	{
+		newComments = [];
+		{% for r in book.bookReviews.all %}
+
+		newComments.push({
+			'pk': '{{r.id}}',
+			'full_name': '{{r.creator.get_full_name}}',
+			'edited': '{{r.edited}}' == "True",
+			'description': '{{r.description|linebreaksbr}}',
+			'like_count': eval('{{r.likes.count}}'),
+			'dislike_count': eval('{{r.dislikes.count}}'),
+			'can_edit': '{{r.creator.pk}}' == '{{user.pk}}',
+		});
+
+		{% endfor %}
+		
+		displayCollectedBookReviews( newComments );
+	}
+
+	function displayCollectedBookReviews( newComments )
+	{
+		if ( newComments.length==0 )
+			return;
+
+		var unIdentifiedComments = [];
+
+		for (var i = 0; i<newComments.length; i++)
+		{
+			var editDeleteComponent = '';
+
+			if ( newComments[i].can_edit )
+			{
+				editDeleteComponent = `
+				<a href="#" onclick="edit_forum_comment_text_area(`+newComments[i].pk+`);"><i class='far fa-edit' style='font-size:15px'></i> Edit</a>
+				&nbsp;
+				<a href="#" onclick="delete_forum_comment(`+newComments[i].pk+`);return false;"><i class='far fa-trash-alt' style='font-size:15px'></i> Delete</a>`;
+			}
+
+			var commentComponent = `
+			<div class="book_comment_container_`+newComments[i].pk+`">
+				<div class="container">
+					<div class="row m-0">
+						<div class="">
+							<a class="text-decoration-none" href="#">
+								<img class="" src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png" width="25" height="25" alt="...">
+							</a>
+						</div>
+						<div class="flex-grow-1 pl-2">
+							<a class="text-decoration-none" href="#">
+								<span class="text-capitalize mb-0">`+newComments[i].full_name+`</span>
+								<span class="small text-secondary m-0 mt-1" id="date_and_edited_msg_`+newComments[i].pk+`">1 day ago {% if f.edited %}(edited){% endif %}</span>
+							</a>
+						</div>
+					</div>
+					<div class="">
+						<p class="my-2" id="forum_comment_text_`+newComments[i].pk+`">
+							`+newComments[i].description+`
+						</p>
+					</div>
+					<footer>
+						<span id="comment_like_id_`+newComments[i].pk+`" type="button" class="btn btn-default btn-sm" onclick="like_comment(`+newComments[i].pk+`)">
+							<i class='far fa-thumbs-up' style='font-size:15px'></i> (`+newComments[i].like_count+`)
+						</span>
+						<span id="comment_dislike_id_`+newComments[i].pk+`" type="button" class="btn btn-default btn-sm" onclick="dislike_comment(`+newComments[i].pk+`)">
+							<i class='far fa-thumbs-down' style='font-size:15px'></i> (`+newComments[i].dislike_count+`)
+						</span>
+						&nbsp;
+						`+editDeleteComponent+`
+					</footer>
+					<hr>
+				</div>
+			</div>
+			`;
+
+			$('#id-book-comment-container').prepend( commentComponent );
+		}
+		return displayCollectedBookReviews(unIdentifiedComments);
+	}
+
+	var starRenderedFirstTime = true;
 
 	function starRatingComponent( counter )
 	{
+		// if user clicked the same star then clear all stars.
+		if ( counter == $('.star-filled').length && !starRenderedFirstTime )
+			return starRatingComponent( 0 );
+
+		starRenderedFirstTime = false;
+
 		$('#star-rating').empty();
 
 		for (var i = 1; i <= counter; i++)
@@ -174,7 +294,6 @@
 		}
 
 		bookCommentBoxListener();
-		
 	}
 
 	function shelfButtonsComponent( btnStatus, btnName, btnId, shelfName, btnContainer )
@@ -251,6 +370,41 @@
 			$('#comment-submit-button').prop('disabled', true);
 
 		$("#id-minimum-characters-left").text("Minimum characters left: " + (100 - boxLength));
+	}
+
+	function submitBookComment()
+	{
+		{% if not user.is_authenticated %}
+			alert("Unable to perform action at this time.");
+			return;
+		{% endif %}
+
+		var newComment = $("#id-comment-text-area").val();
+		var starCount = $('.star-filled').length;
+
+		url = "{% url 'book:bookComment' 'isbn' 'action' %}";
+		url = url.replace('isbn', '{{book.isbn13}}');
+		url = url.replace('action', 'create');
+
+		$.ajax({
+			url: url,
+			type: 'POST',
+			data: {
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+				'newComment': newComment,
+				'starCount': starCount,
+			},
+			async: true,
+			success: function (response)
+			{
+				if (response.action)
+				{
+					response.bookReview.description = response.bookReview.description.split("\n").join("<br>");
+					displayCollectedBookReviews([response.bookReview]);
+				}
+			}
+		});
+
 	}
 
 	var swiper = new Swiper('.swiper-container', {
